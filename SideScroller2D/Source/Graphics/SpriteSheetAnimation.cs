@@ -1,32 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace SideScroller2D.Graphics
 {
     class SpriteSheetAnimation
     {
+        /// <summary>
+        /// The time it takes to get to the next frame in milliseconds
+        /// </summary>
+        public float Interval { get => interval; set => interval = value; }
+
+        /// <summary>
+        /// The amount of frames that are played per second
+        /// </summary>
+        public float FrameRate
+        {
+            get { return interval * frames.Length / 1000f; }
+            set { interval = value * 1000f / frames.Length; }
+        }
+
         public SpriteSheet SpriteSheet;
         public bool Paused = false;
 
-        float timer = 0;
-        int[] frames;
-        int currentFrameIndex = 0;
+        private float interval;
+        private float timer = 0;
+        private int[] frames;
+        private int currentFrameIndex = 0;
 
-        public SpriteSheetAnimation(SpriteSheet spriteSheet, int[] frames)
+        public SpriteSheetAnimation(SpriteSheet spriteSheet, int[] frames, float interval = 200.0f)
         {
             this.SpriteSheet = spriteSheet;
             this.frames = frames;
+            this.interval = interval;
         }
 
-        public SpriteSheetAnimation(SpriteSheet spriteSheet, int startFrame = 0, int endFrame = 0)
+        public SpriteSheetAnimation(SpriteSheet spriteSheet, int startFrame = 0, int endFrame = 0, float interval = 200.0f)
         {
             this.SpriteSheet = spriteSheet;
+            this.interval = interval;
 
             int length = endFrame + 1 - startFrame;
             frames = new int[length];
@@ -37,19 +47,30 @@ namespace SideScroller2D.Graphics
 
         public void Update(float elapsedMilliseconds)
         {
-            if (Paused)
+            if (Paused || frames.Length <= 1)
                 return;
 
             timer += elapsedMilliseconds;
 
-            if (timer < 0)
+            if (timer < interval)
                 return;
 
-            timer -= elapsedMilliseconds;
+            timer -= interval;
+            currentFrameIndex++;
 
             if (currentFrameIndex >= frames.Length)
                 currentFrameIndex = 0;
 
+            SpriteSheet.SetFrame(frames[currentFrameIndex]);
+        }
+
+        /// <summary>
+        /// Goes back to the first frame
+        /// </summary>
+        public void ResetAnimation()
+        {
+            timer = 0;
+            currentFrameIndex = 0;
             SpriteSheet.SetFrame(frames[currentFrameIndex]);
         }
     }

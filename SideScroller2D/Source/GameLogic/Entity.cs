@@ -15,7 +15,16 @@ namespace SideScroller2D
     {
         public Vector2 Position { get; set; }
 
+        public Vector2 Speed = Vector2.Zero;// { get; set; }
+        public Vector2 Acceleration
+        {
+            get { return acceleration; }
+            set { acceleration = new Vector2(MathHelper.Clamp(value.X, 0, 1), MathHelper.Clamp(value.Y, 0, 1)); }
+        }
+
         protected Sprite sprite;
+
+        private Vector2 acceleration = Vector2.One;
 
 
         protected Entity()
@@ -25,7 +34,7 @@ namespace SideScroller2D
 
         public virtual void Update(GameTime gameTime)
         {
-
+            Move(Speed * Acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 
         public virtual void Move(float x, float y)

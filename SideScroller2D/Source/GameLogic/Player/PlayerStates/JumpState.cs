@@ -13,8 +13,8 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
 {
     class JumpState : InAirState
     {
-        protected float jumpPower = 6.44f;
-        protected float slowGravity = 0.017f;
+        protected float jumpPower = 332f;
+        protected float slowGravity = 14f;
 
         public JumpState(Player player)
             : base(player)
@@ -25,7 +25,7 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
         {
             player.ChangeAnimation(Player.Animations.Jump);
 
-            player.SetYSpeed(-jumpPower);
+            player.Speed.Y = -jumpPower;
 
             AudioManager.PlaySound(GameSounds.PlayerJump);
         }

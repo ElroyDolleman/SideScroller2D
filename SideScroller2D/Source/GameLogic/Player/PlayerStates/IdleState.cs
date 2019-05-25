@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 
+using SideScroller2D.Input;
+
 namespace SideScroller2D.GameLogic.Player.PlayerStates
 {
     class IdleState : OnGroundState
@@ -24,7 +26,14 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
+            if (InputManager.JustPressed(player.Inputs.Jump))
+            {
+                player.ChangeState(new JumpState(player));
+            }
+            else if (InputManager.IsDown(player.Inputs.Left) || InputManager.IsDown(player.Inputs.Right))
+            {
+                player.ChangeState(new RunState(player));
+            }
         }
     }
 }
