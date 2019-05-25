@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Input;
 
 using SideScroller2D.Graphics;
 using SideScroller2D.StateManagement;
+using SideScroller2D.Managers;
+using SideScroller2D.Input;
 
 namespace SideScroller2D
 {
@@ -39,6 +41,8 @@ namespace SideScroller2D
             var spriteBatchSettings = SpriteBatchSettings.Default;
             spriteBatchSettings.SpriteBatchScale = Matrix.CreateScale(new Vector3(scaleX, scaleY, 1));
 
+            InputManager.Initialize();
+
             stateManager = new StateManager(spriteBatchSettings);
             new GameState(stateManager);
 
@@ -49,7 +53,9 @@ namespace SideScroller2D
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            stateManager.LoadContent(Content);
+            AssetsManager.LoadTexture2D(Content, "character_nina");
+
+            stateManager.OnContentLoaded();
         }
 
         protected override void UnloadContent()
@@ -59,8 +65,10 @@ namespace SideScroller2D
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            InputManager.UpdateState();
+
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //    Exit();
 
             stateManager.Update(gameTime);
 

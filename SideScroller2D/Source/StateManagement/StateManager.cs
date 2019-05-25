@@ -49,10 +49,10 @@ namespace SideScroller2D.StateManagement
             currentStateID = id;
         }
 
-        public void LoadContent(ContentManager content)
+        public void OnContentLoaded()
         {
             foreach (BaseState state in states)
-                state.LoadContent(content);
+                state.OnContentLoaded();
         }
 
         public void Update(GameTime gameTime)

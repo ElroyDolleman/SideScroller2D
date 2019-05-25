@@ -15,7 +15,7 @@ namespace SideScroller2D.Graphics
         /// <summary>
         /// A rectangle surrounding the sprite
         /// </summary>
-        public Rectangle Bounds { get => Crop.HasValue ? Crop.Value : texture.Bounds; }
+        public Rectangle Bounds { get => Crop.HasValue ? Crop.Value : Texture.Bounds; }
 
         public SpriteEffects SpriteEffect { get => spriteEffect; set => spriteEffect = value; }
         public Color Color { get => color; set => color = value; }
@@ -26,13 +26,14 @@ namespace SideScroller2D.Graphics
 
         public float Depth { get => depth; set => depth = value; }
 
+        public Texture2D Texture;
+
 
         private Vector2 origin = Vector2.Zero;
 
         private Vector2 scale = Vector2.One;
         private float rotation = 0f;
-
-        protected Texture2D texture;
+        
         private Rectangle? crop;
         private Color color = Color.White;
         private SpriteEffects spriteEffect;
@@ -41,12 +42,12 @@ namespace SideScroller2D.Graphics
 
         public Sprite(Texture2D texture)
         {
-            this.texture = texture;
+            this.Texture = texture;
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position)
         {
-            spriteBatch.Draw(texture, position, crop, color, rotation, origin, scale, SpriteEffect, depth);
+            spriteBatch.Draw(Texture, position, crop, color, rotation, origin, scale, SpriteEffect, depth);
         }
     }
 }

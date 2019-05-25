@@ -24,7 +24,7 @@ namespace SideScroller2D.StateManagement
             StateID = stateManager.AddState(this);
         }
 
-        public virtual void LoadContent(ContentManager content)
+        public virtual void OnContentLoaded()
         {
 
         }
