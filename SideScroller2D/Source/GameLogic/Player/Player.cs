@@ -45,8 +45,8 @@ namespace SideScroller2D.GameLogic.Player
             animations = new Dictionary<Animations, SpriteSheetAnimation>();
             animations.Add(Animations.Idle, new SpriteSheetAnimation(characterSheet, new int[] { 0 }));
             animations.Add(Animations.Walk, new SpriteSheetAnimation(characterSheet, new int[] { 0, 1 }));
-            animations.Add(Animations.Jump, new SpriteSheetAnimation(characterSheet, new int[] { 1 }));
-            animations.Add(Animations.Fall, new SpriteSheetAnimation(characterSheet, new int[] { 2 }));
+            animations.Add(Animations.Jump, new SpriteSheetAnimation(characterSheet, new int[] { 2 }));
+            animations.Add(Animations.Fall, new SpriteSheetAnimation(characterSheet, new int[] { 3 }));
 
             ChangeState(new IdleState(this));
         }

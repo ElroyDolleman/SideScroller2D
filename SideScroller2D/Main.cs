@@ -6,6 +6,7 @@ using SideScroller2D.Graphics;
 using SideScroller2D.StateManagement;
 using SideScroller2D.Managers;
 using SideScroller2D.Input;
+using SideScroller2D.Audio;
 
 namespace SideScroller2D
 {
@@ -54,6 +55,7 @@ namespace SideScroller2D
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             AssetsManager.LoadTexture2D(Content, "character_nina");
+            AudioManager.LoadAllSounds(Content);
 
             stateManager.OnContentLoaded();
         }

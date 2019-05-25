@@ -25,3 +25,9 @@
 /processorParam:TextureFormat=Color
 /build:character_nina.png
 
+#begin player_jump.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:player_jump.wav
+

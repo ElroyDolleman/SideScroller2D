@@ -16,7 +16,7 @@ namespace SideScroller2D.Input
         //public GamePadState CurrentGamePadState;
         //public KeyboardState CurrentKeyboardState;
 
-        public PlayerIndex PlayerIndex;
+        //public PlayerIndex PlayerIndex;
 
         public Input Jump;
 

@@ -11,7 +11,7 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
     class InAirState : PlayerBaseState
     {
         protected const float maxFallspeed = 2.0f;
-        protected const float gravity = 0.04f;
+        protected float gravity = 0.04f;
 
         protected float fallSpeed = 0f;
 
@@ -29,7 +29,6 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
         {
             fallSpeed = Math.Min(fallSpeed + gravity, maxFallspeed);
 
-            Console.WriteLine("FallSpeed {0}", fallSpeed);
             player.Move(0, fallSpeed * gameTime.ElapsedGameTime.Milliseconds);
 
             if (player.Position.Y > 300-16)
