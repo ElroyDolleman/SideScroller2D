@@ -17,6 +17,8 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
 
         public override void OnEnter()
         {
+            base.OnEnter();
+
             player.ChangeAnimation(Player.Animations.Idle);
         }
 

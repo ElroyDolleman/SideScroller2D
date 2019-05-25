@@ -53,6 +53,7 @@
     <Compile Include="Source\GameLogic\Player\PlayerStates\JumpState.cs" />
     <Compile Include="Source\GameLogic\Player\PlayerStates\OnGroundState.cs" />
     <Compile Include="Source\GameLogic\Player\PlayerStates\PlayerBaseState.cs" />
+    <Compile Include="Source\GameLogic\Player\PlayerStates\RunState.cs" />
     <Compile Include="Source\Graphics\Sprite.cs" />
     <Compile Include="Source\Graphics\SpriteBatchExtension.cs" />
     <Compile Include="Source\Graphics\SpriteBatchSettings.cs" />

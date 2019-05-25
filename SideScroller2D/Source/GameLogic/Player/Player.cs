@@ -25,6 +25,8 @@ namespace SideScroller2D.GameLogic.Player
             Duck
         }
 
+        public Vector2 Speed { get => speed; }
+
         public readonly PlayerIndex PlayerIndex;
         public readonly PlayerInputs Inputs;
 
@@ -33,6 +35,8 @@ namespace SideScroller2D.GameLogic.Player
 
         Dictionary<Animations, SpriteSheetAnimation> animations;
         SpriteSheetAnimation currentAnimation;
+
+        Vector2 speed = Vector2.Zero;
 
         public Player(PlayerIndex playerIndex)
         {
@@ -66,7 +70,47 @@ namespace SideScroller2D.GameLogic.Player
         {
             currentState.Update(gameTime);
 
+            if (speed != Vector2.Zero)
+                Move(speed);
+
+            if (speed.X < 0)
+                sprite.SpriteEffect = SpriteEffects.FlipHorizontally;
+            else if (speed.X > 0)
+                sprite.SpriteEffect = SpriteEffects.None;
+
             currentAnimation.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
+        }
+
+        public void SetSpeed(float x, float y)
+        {
+            speed.X = x;
+            speed.Y = y;
+        }
+
+        public void SetSpeed(Vector2 speed)
+        {
+            this.speed = speed;
+        }
+
+        public void SetXSpeed(float xSpeed)
+        {
+            speed.X = xSpeed;
+        }
+
+        public void SetYSpeed(float ySpeed)
+        {
+            speed.Y = ySpeed;
+        }
+
+        public void AddSpeed(float x, float y)
+        {
+            speed.X += x;
+            speed.Y += y;
+        }
+
+        public void AddSpeed(Vector2 addedSpeed)
+        {
+            speed += addedSpeed;
         }
 
         public override void Draw(SpriteBatch spriteBatch)

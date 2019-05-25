@@ -6,14 +6,17 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 
+using SideScroller2D.Input;
+
 namespace SideScroller2D.GameLogic.Player.PlayerStates
 {
     class InAirState : PlayerBaseState
     {
-        protected const float maxFallspeed = 2.0f;
-        protected float gravity = 0.04f;
+        protected const float maxFallspeed = 5.0f;
+        protected float defaultGravity = 0.04f;
 
-        protected float fallSpeed = 0f;
+        protected float airSpeed = 2.0f;
+        protected float airResitance = 0.1f;
 
         public InAirState(Player player)
             : base(player)
@@ -22,20 +25,39 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
 
         public override void OnEnter()
         {
-            fallSpeed = 0;
+            
         }
 
         public override void Update(GameTime gameTime)
         {
-            fallSpeed = Math.Min(fallSpeed + gravity, maxFallspeed);
+            float xSpeed = 0;
 
-            player.Move(0, fallSpeed * gameTime.ElapsedGameTime.Milliseconds);
+            if (player.Speed.X < airSpeed && InputManager.IsDown(player.Inputs.Right))
+                xSpeed = airSpeed * airResitance;
+
+            else if (player.Speed.X > -airSpeed && InputManager.IsDown(player.Inputs.Left))
+                xSpeed = -airSpeed * airResitance;
+
+            player.AddSpeed(xSpeed, GetGravity() * gameTime.ElapsedGameTime.Milliseconds);
 
             if (player.Position.Y > 300-16)
             {
                 player.Position = new Vector2(player.Position.X, 300-16);
-                player.ChangeState(new IdleState(player));
+
+                if (player.Speed.X == 0)
+                    player.ChangeState(new IdleState(player));
+
+                else
+                    player.ChangeState(new RunState(player));
             }
+        }
+
+        public virtual float GetGravity()
+        {
+            if (player.Speed.Y > maxFallspeed)
+                return 0;
+
+            return defaultGravity;
         }
     }
 }

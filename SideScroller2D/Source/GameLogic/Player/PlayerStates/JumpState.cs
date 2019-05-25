@@ -13,7 +13,8 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
 {
     class JumpState : InAirState
     {
-        protected float jumpPower = 0.44f;
+        protected float jumpPower = 6.44f;
+        protected float slowGravity = 0.017f;
 
         public JumpState(Player player)
             : base(player)
@@ -24,23 +25,27 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
         {
             player.ChangeAnimation(Player.Animations.Jump);
 
-            fallSpeed = -jumpPower;
-            gravity = 0.018f;
+            player.SetYSpeed(-jumpPower);
 
             AudioManager.PlaySound(GameSounds.PlayerJump);
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (InputManager.JustReleased(player.Inputs.Jump))
-            {
-                gravity = 0.04f; // TODO: Get rid of magic number. Need to rethink how gravity should be applied.
-            }
-
             base.Update(gameTime);
 
-            if (fallSpeed > 0)
+            if (player.Speed.Y > 0)
                 player.ChangeState(new FallState(player));
+        }
+
+        public override float GetGravity()
+        {
+            if (InputManager.IsDown(player.Inputs.Jump))
+                return slowGravity;
+
+            slowGravity = defaultGravity;
+
+            return base.GetGravity();
         }
     }
 }
