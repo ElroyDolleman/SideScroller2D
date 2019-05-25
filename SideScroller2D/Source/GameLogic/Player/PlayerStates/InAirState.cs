@@ -15,7 +15,7 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
         protected const float maxFallspeed = 500f;
         protected const float defaultGravity = 30f;
 
-        protected float airResitance = 0.2f;
+        bool movesRight { get { return player.Speed.X > 0; } }
 
         public InAirState(Player player)
             : base(player)
@@ -24,20 +24,12 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
 
         public override void OnEnter()
         {
-            //player.Acceleration.Y = GetGravity();
+            
         }
 
         public override void Update(GameTime gameTime)
         {
-            float xSpeed = 0;
-
-            if (player.Speed.X < Player.RunSpeed && InputManager.IsDown(player.Inputs.Right))
-                xSpeed = Player.RunSpeed * airResitance;
-
-            else if (player.Speed.X > -Player.RunSpeed && InputManager.IsDown(player.Inputs.Left))
-                xSpeed = -Player.RunSpeed * airResitance;
-
-            player.Speed += new Vector2(xSpeed, GetGravity());
+            player.Speed += new Vector2(0, GetGravity());
 
             if (player.Position.Y > 300-16)
             {

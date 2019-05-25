@@ -21,6 +21,8 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
         {
             base.OnEnter();
 
+            player.Speed.X = 0;
+
             player.ChangeAnimation(Player.Animations.Idle);
         }
 
@@ -30,7 +32,7 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
             {
                 player.ChangeState(new JumpState(player));
             }
-            else if (InputManager.IsDown(player.Inputs.Left) || InputManager.IsDown(player.Inputs.Right))
+            else if (player.Acceleration.X != 0 && player.Speed.X != 0)
             {
                 player.ChangeState(new RunState(player));
             }

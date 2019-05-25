@@ -68,6 +68,29 @@ namespace SideScroller2D.GameLogic.Player
 
         public override void Update(GameTime gameTime)
         {
+            if (InputManager.IsDown(Inputs.Right))
+            {
+                Acceleration += new Vector2(0.09f, 0);
+
+                if (Speed.X <= 0)
+                {
+                    Speed.X = Player.RunSpeed;
+                    Acceleration = new Vector2(0, Acceleration.Y);
+                }
+            }
+            else if (InputManager.IsDown(Inputs.Left))
+            {
+                Acceleration += new Vector2(0.09f, 0);
+
+                if (Speed.X >= 0)
+                {
+                    Speed.X = -Player.RunSpeed;
+                    Acceleration = new Vector2(0, Acceleration.Y);
+                }
+            }
+            else
+                Acceleration -= new Vector2(0.09f, 0);
+
             currentState.Update(gameTime);
 
             base.Update(gameTime);
