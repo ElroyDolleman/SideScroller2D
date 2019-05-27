@@ -12,8 +12,6 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
 {
     class RunState : OnGroundState
     {
-        float accelSpeed = 0.09f;
-
         public RunState(Player player)
             : base(player)
         {

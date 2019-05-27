@@ -11,7 +11,7 @@ namespace SideScroller2D.Graphics
 {
     class SpriteSheet
     {
-        public int CurrentFrame { get => currentFrame; }
+        public int CurrentFrame { get; private set; }
 
         public readonly int FramesPerRow;
 
@@ -21,41 +21,37 @@ namespace SideScroller2D.Graphics
         public readonly Rectangle SheetArea;
         public readonly Point Spacing;
 
-        public Sprite Sprite;
-
-        private int currentFrame;
-
-        public SpriteSheet(Sprite sprite, int frameWidth, int frameHeight)
-            : this(sprite, frameWidth, frameHeight, Point.Zero, sprite.Bounds)
+        public SpriteSheet(Texture2D texture, int frameWidth, int frameHeight)
+            : this(texture, frameWidth, frameHeight, Point.Zero, texture.Bounds)
         {
         }
 
-        public SpriteSheet(Sprite sprite, int frameWidth, int frameHeight, Point spacing)
-            : this(sprite, frameWidth, frameHeight, spacing, sprite.Bounds)
+        public SpriteSheet(Texture2D texture, int frameWidth, int frameHeight, Point spacing)
+            : this(texture, frameWidth, frameHeight, spacing, texture.Bounds)
         {
         }
 
-        public SpriteSheet(Sprite sprite, int frameWidth, int frameHeight, int spacing)
-            : this(sprite, frameWidth, frameHeight, new Point(spacing, spacing), sprite.Bounds)
+        public SpriteSheet(Texture2D texture, int frameWidth, int frameHeight, int spacing)
+            : this(texture, frameWidth, frameHeight, new Point(spacing, spacing), texture.Bounds)
         {
         }
 
-        public SpriteSheet(Sprite sprite, int frameWidth, int frameHeight, int spacing, int margin)
-            : this(sprite, frameWidth, frameHeight, new Point(spacing, spacing), new Rectangle(margin, margin, sprite.Texture.Width - margin * 2, sprite.Texture.Height - margin * 2))
+        public SpriteSheet(Texture2D texture, int frameWidth, int frameHeight, int spacing, int margin)
+            : this(texture, frameWidth, frameHeight, new Point(spacing, spacing), new Rectangle(margin, margin, texture.Width - margin * 2, texture.Height - margin * 2))
         {
         }
 
-        public SpriteSheet(Sprite sprite, int frameWidth, int frameHeight, int spacing, Point margin)
-            : this(sprite, frameWidth, frameHeight, new Point(spacing, spacing), new Rectangle(margin.X, margin.Y, sprite.Texture.Width - margin.X * 2, sprite.Texture.Height - margin.Y * 2))
+        public SpriteSheet(Texture2D texture, int frameWidth, int frameHeight, int spacing, Point margin)
+            : this(texture, frameWidth, frameHeight, new Point(spacing, spacing), new Rectangle(margin.X, margin.Y, texture.Width - margin.X * 2, texture.Height - margin.Y * 2))
         {
         }
 
-        public SpriteSheet(Sprite sprite, int frameWidth, int frameHeight, int spacing, Rectangle sheetArea)
-            : this(sprite, frameWidth, frameHeight, new Point(spacing, spacing), sheetArea)
+        public SpriteSheet(Texture2D texture, int frameWidth, int frameHeight, int spacing, Rectangle sheetArea)
+            : this(texture, frameWidth, frameHeight, new Point(spacing, spacing), sheetArea)
         {
         }
 
-        public SpriteSheet(Sprite sprite, int frameWidth, int frameHeight, Point spacing, Rectangle sheetArea)
+        public SpriteSheet(Texture2D texture, int frameWidth, int frameHeight, Point spacing, Rectangle sheetArea)
         {
             this.FrameWidth = frameWidth;
             this.FrameHeight = frameHeight;
@@ -63,28 +59,20 @@ namespace SideScroller2D.Graphics
             this.SheetArea = sheetArea;
             this.Spacing = spacing;
 
-            this.Sprite = sprite;
-
             FramesPerRow = SheetArea.Size.X / FrameWidth;
-
-            SetFrame(0);
         }
 
-        public void SetFrame(int frame)
+        public void CropSpriteByFrame(Sprite sprite, int frame)
         {
             int x = frame % FramesPerRow;
             int y = (int)Math.Floor((float)frame / FramesPerRow);
 
-            Sprite.Crop = new Rectangle(x * FrameWidth, y * FrameHeight, FrameWidth, FrameHeight);
-
-            currentFrame = frame;
+            sprite.Crop = new Rectangle(x * FrameWidth, y * FrameHeight, FrameWidth, FrameHeight);
         }
 
-        public void SetFrame(int x, int y)
-        {
-            Sprite.Crop = new Rectangle(x * FrameWidth, y * FrameHeight, FrameWidth, FrameHeight);
-
-            currentFrame = y * FramesPerRow + x;
-        }
+        //public void CropSpriteByTileLocation(Sprite sprite, int x, int y)
+        //{
+        //    sprite.Crop = new Rectangle(x * FrameWidth, y * FrameHeight, FrameWidth, FrameHeight);
+        //}
     }
 }

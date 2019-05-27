@@ -11,7 +11,7 @@ namespace SideScroller2D.Graphics
             {
                 var settings = new SpriteBatchSettings();
 
-                settings.SpriteSortMode = SpriteSortMode.BackToFront;
+                settings.SpriteSortMode = SpriteSortMode.Deferred;
                 settings.BlendState = BlendState.AlphaBlend;
                 settings.SamplerState = SamplerState.PointClamp;
                 settings.DepthStencilState = DepthStencilState.None;

@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using SideScroller2D.Graphics;
 using SideScroller2D.GameLogic.Player;
+using SideScroller2D.GameLogic.Map;
 
 namespace SideScroller2D.StateManagement
 {
@@ -27,6 +28,8 @@ namespace SideScroller2D.StateManagement
         {
             player = new Player(PlayerIndex.One);
             player.Position = new Vector2(200 - 8, 300 - 16);
+
+            LevelLoader.LoadLevel();
         }
 
         public override void Update(GameTime gameTime)

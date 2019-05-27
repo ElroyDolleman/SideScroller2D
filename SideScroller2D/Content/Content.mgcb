@@ -31,3 +31,18 @@
 /processorParam:Quality=Best
 /build:player_jump.wav
 
+#begin test_map01.json
+/copy:test_map01.json
+
+#begin tileset01.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tileset01.png
+

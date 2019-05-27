@@ -43,13 +43,13 @@ namespace SideScroller2D.GameLogic.Player
             Inputs = InputManager.PlayerInputs[(int)PlayerIndex];
 
             sprite = new Sprite(AssetsManager.GetTexture("character_nina"));
-            characterSheet = new SpriteSheet(sprite, 16, 16);
+            characterSheet = new SpriteSheet(sprite.Texture, 16, 16);
 
             animations = new Dictionary<Animations, SpriteSheetAnimation>();
-            animations.Add(Animations.Idle, new SpriteSheetAnimation(characterSheet, new int[] { 0 }));
-            animations.Add(Animations.Walk, new SpriteSheetAnimation(characterSheet, new int[] { 0, 1 }));
-            animations.Add(Animations.Jump, new SpriteSheetAnimation(characterSheet, new int[] { 2 }));
-            animations.Add(Animations.Fall, new SpriteSheetAnimation(characterSheet, new int[] { 3 }));
+            animations.Add(Animations.Idle, new SpriteSheetAnimation(sprite, characterSheet, new int[] { 0 }));
+            animations.Add(Animations.Walk, new SpriteSheetAnimation(sprite, characterSheet, new int[] { 0, 1 }));
+            animations.Add(Animations.Jump, new SpriteSheetAnimation(sprite, characterSheet, new int[] { 2 }));
+            animations.Add(Animations.Fall, new SpriteSheetAnimation(sprite, characterSheet, new int[] { 3 }));
 
             ChangeState(new IdleState(this));
         }

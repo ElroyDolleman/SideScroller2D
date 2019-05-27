@@ -19,6 +19,7 @@ namespace SideScroller2D.Graphics
         }
 
         public SpriteSheet SpriteSheet;
+        public Sprite Sprite;
         public bool Paused = false;
 
         private float interval;
@@ -26,16 +27,18 @@ namespace SideScroller2D.Graphics
         private int[] frames;
         private int currentFrameIndex = 0;
 
-        public SpriteSheetAnimation(SpriteSheet spriteSheet, int[] frames, float interval = 200.0f)
+        public SpriteSheetAnimation(Sprite sprite, SpriteSheet spriteSheet, int[] frames, float interval = 200.0f)
         {
             this.SpriteSheet = spriteSheet;
+            this.Sprite = sprite;
             this.frames = frames;
             this.interval = interval;
         }
 
-        public SpriteSheetAnimation(SpriteSheet spriteSheet, int startFrame = 0, int endFrame = 0, float interval = 200.0f)
+        public SpriteSheetAnimation(Sprite sprite, SpriteSheet spriteSheet, int startFrame = 0, int endFrame = 0, float interval = 200.0f)
         {
             this.SpriteSheet = spriteSheet;
+            this.Sprite = sprite;
             this.interval = interval;
 
             int length = endFrame + 1 - startFrame;
@@ -61,7 +64,7 @@ namespace SideScroller2D.Graphics
             if (currentFrameIndex >= frames.Length)
                 currentFrameIndex = 0;
 
-            SpriteSheet.SetFrame(frames[currentFrameIndex]);
+            SpriteSheet.CropSpriteByFrame(Sprite, frames[currentFrameIndex]);
         }
 
         /// <summary>
@@ -71,7 +74,7 @@ namespace SideScroller2D.Graphics
         {
             timer = 0;
             currentFrameIndex = 0;
-            SpriteSheet.SetFrame(frames[currentFrameIndex]);
+            SpriteSheet.CropSpriteByFrame(Sprite, frames[0]);
         }
     }
 }
