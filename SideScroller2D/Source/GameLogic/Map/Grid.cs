@@ -40,7 +40,7 @@ namespace SideScroller2D.GameLogic.Map
         /// <summary>
         /// Calculates the cell number where (x: 0, y: 0) = 0
         /// </summary>
-        /// <param name="cellsPerRow">The amount of cells on 1 </param>
+        /// <param name="cellsPerRow">The amount of cells on 1 row</param>
         public int CellNumber(int x, int y, int cellsPerRow)
         {
             return y * cellsPerRow + x;

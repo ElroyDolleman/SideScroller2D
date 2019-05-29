@@ -10,6 +10,7 @@ namespace SideScroller2D.GameLogic.Map
     class Tile
     {
         public readonly Vector2 Position;
+        public readonly bool Solid;
 
         private Sprite background;
         private Sprite overlay;
@@ -19,7 +20,7 @@ namespace SideScroller2D.GameLogic.Map
         private bool hasOverlay;
         private bool hasForeground;
 
-        public Tile(Vector2 position, Sprite background = null, Sprite overlay = null, Sprite foreground = null)
+        public Tile(Vector2 position, Sprite background = null, Sprite overlay = null, Sprite foreground = null, bool solid = false)
         {
             hasBackground = background != null;
             hasOverlay = overlay != null;
@@ -33,6 +34,7 @@ namespace SideScroller2D.GameLogic.Map
                 this.foreground = foreground;
 
             this.Position = position;
+            this.Solid = solid;
         }
 
         public void DrawBackground(SpriteBatch spriteBatch)

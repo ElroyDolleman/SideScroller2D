@@ -21,6 +21,8 @@ namespace SideScroller2D.Graphics
         public readonly Rectangle SheetArea;
         public readonly Point Spacing;
 
+        public readonly Texture2D Texture;
+
         public SpriteSheet(Texture2D texture, int frameWidth, int frameHeight)
             : this(texture, frameWidth, frameHeight, Point.Zero, texture.Bounds)
         {
@@ -58,6 +60,8 @@ namespace SideScroller2D.Graphics
 
             this.SheetArea = sheetArea;
             this.Spacing = spacing;
+
+            this.Texture = texture;
 
             FramesPerRow = SheetArea.Size.X / FrameWidth;
         }

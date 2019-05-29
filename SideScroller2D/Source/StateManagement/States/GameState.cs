@@ -17,6 +17,7 @@ namespace SideScroller2D.StateManagement
     class GameState : BaseState
     {
         Player player;
+        Level currentLevel;
 
         public GameState(StateManager stateManager)
             : base(stateManager)
@@ -29,7 +30,7 @@ namespace SideScroller2D.StateManagement
             player = new Player(PlayerIndex.One);
             player.Position = new Vector2(200 - 8, 300 - 16);
 
-            LevelLoader.LoadLevel();
+            currentLevel = LevelLoader.LoadLevel();
         }
 
         public override void Update(GameTime gameTime)
@@ -39,7 +40,11 @@ namespace SideScroller2D.StateManagement
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            currentLevel.DrawBackground(spriteBatch);
+
             player.Draw(spriteBatch);
+
+            currentLevel.DrawForeground(spriteBatch);
         }
     }
 }

@@ -27,6 +27,9 @@ namespace SideScroller2D.GameLogic.Map
             var tilewidth = levelJson["tilewidth"].Value<int>();
             var tileheight = levelJson["tileheight"].Value<int>();
 
+            int totalHeight = height * tileheight;
+            int startPosY = Main.TargetHeight - totalHeight;
+
             var backgroundLayer = levelJson["layers"][0];
             var overlayLayer = levelJson["layers"][1];
             var foregroundLayer = levelJson["layers"][2];
@@ -44,13 +47,20 @@ namespace SideScroller2D.GameLogic.Map
                 for (int x = 0; x < width; x++)
                 {
                     int index = y * width + x;
-                    Console.Write("{0} ", overlayArray[index]);
+                    int overlayFrame = overlayArray[index] - 1;
 
-                    var position = new Vector2(x * tilewidth, y * tileheight);
+                    var position = new Vector2(x * tilewidth, startPosY + y * tileheight);
 
-                    //tileset
+                    Sprite overlaySprite = null; 
+                    if (overlayFrame >= 0)
+                    {
+                        overlaySprite = new Sprite(tileset.Texture);
+                        tileset.CropSpriteByFrame(overlaySprite, overlayFrame);
+                    }
 
-                    tiles.Add(new Tile(position));
+                    var tile = new Tile(position, null, overlaySprite, null);
+
+                    tiles.Add(tile);
                 }
             }
 

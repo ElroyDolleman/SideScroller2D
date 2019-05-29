@@ -34,6 +34,9 @@
 #begin test_map01.json
 /copy:test_map01.json
 
+#begin tileset01.json
+/copy:tileset01.json
+
 #begin tileset01.png
 /importer:TextureImporter
 /processor:TextureProcessor
