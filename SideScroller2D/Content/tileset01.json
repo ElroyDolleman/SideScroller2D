@@ -1,5 +1,5 @@
 { "columns":8,
- "image":"..\/PixelArt\/Aseprite\/CharacterTests\/tileset01.png",
+ "image":"tileset01.png",
  "imageheight":128,
  "imagewidth":128,
  "margin":0,
@@ -121,29 +121,6 @@
         }, 
         {
          "id":17,
-         "objectgroup":
-            {
-             "draworder":"index",
-             "name":"",
-             "objects":[
-                    {
-                     "height":0,
-                     "id":1,
-                     "name":"",
-                     "point":true,
-                     "rotation":0,
-                     "type":"",
-                     "visible":true,
-                     "width":0,
-                     "x":-25,
-                     "y":-407
-                    }],
-             "opacity":1,
-             "type":"objectgroup",
-             "visible":true,
-             "x":0,
-             "y":0
-            },
          "properties":[
                 {
                  "name":"solid",

@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Input;
 
 using SideScroller2D.Graphics;
 using SideScroller2D.StateManagement;
-using SideScroller2D.Managers;
 using SideScroller2D.Utilities;
 using SideScroller2D.Input;
 using SideScroller2D.Audio;
@@ -58,7 +57,9 @@ namespace SideScroller2D
             JsonLoader.SetRootDirectory(Content.RootDirectory);
 
             AssetsManager.LoadTexture2D(Content, "character_nina");
-            AssetsManager.LoadTexture2D(Content, "tileset01");
+
+            AssetsManager.LoadTileset(Content, "tileset01.json", "tileset01");
+
             AudioManager.LoadAllSounds(Content);
 
             stateManager.OnContentLoaded();

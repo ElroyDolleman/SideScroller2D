@@ -45,6 +45,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Audio\AudioManager.cs" />
+    <Compile Include="Source\Collision\Circle.cs" />
+    <Compile Include="Source\Collision\CollisionManager.cs" />
+    <Compile Include="Source\Collision\IMovableHitbox.cs" />
     <Compile Include="Source\GameLogic\Entity.cs" />
     <Compile Include="Source\GameLogic\Map\Grid.cs" />
     <Compile Include="Source\GameLogic\Map\Level.cs" />
@@ -69,7 +72,7 @@
     <Compile Include="Source\StateManagement\BaseState.cs" />
     <Compile Include="Source\StateManagement\StateManager.cs" />
     <Compile Include="Source\StateManagement\States\GameState.cs" />
-    <Compile Include="Source\Managers\AssetsManager.cs" />
+    <Compile Include="Source\Utilities\AssetsManager.cs" />
     <Compile Include="Source\Input\InputManager.cs" />
     <Compile Include="Source\Utilities\JsonLoader.cs" />
   </ItemGroup>

@@ -21,6 +21,11 @@ namespace SideScroller2D.GameLogic.Map
             this.Position = position;
         }
 
+        public Vector2 ToWorldPosition(int x, int y)
+        {
+            return ToWorldPosition(new Point(x, y));
+        }
+
         public Vector2 ToWorldPosition(Point gridLocation)
         {
             return Position + new Vector2(
@@ -32,8 +37,8 @@ namespace SideScroller2D.GameLogic.Map
         public Point ToGridLocation(Vector2 worldPosition)
         {
             return new Point(
-                (int)(Position.X + Math.Floor(worldPosition.X / CellSize.X)),
-                (int)(Position.Y + Math.Floor(worldPosition.Y / CellSize.Y))
+                (int)Math.Floor((worldPosition.X - Position.X) / CellSize.X),
+                (int)Math.Floor((worldPosition.Y - Position.Y) / CellSize.Y)
             );
         }
 

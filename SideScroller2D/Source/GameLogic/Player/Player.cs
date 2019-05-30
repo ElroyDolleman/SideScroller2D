@@ -9,12 +9,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 using SideScroller2D.GameLogic.Player.PlayerStates;
 using SideScroller2D.Graphics;
-using SideScroller2D.Managers;
+using SideScroller2D.Utilities;
 using SideScroller2D.Input;
+using SideScroller2D.Collision;
 
 namespace SideScroller2D.GameLogic.Player
 {
-    class Player : Entity
+    class Player : Entity, IMovableHitbox
     {
         public enum Animations
         {
@@ -25,11 +26,15 @@ namespace SideScroller2D.GameLogic.Player
             Duck
         }
 
+        public Rectangle Hitbox { get { return new Rectangle(Position.ToPoint() + hitbox.Location, hitbox.Size); } }
+
         // Stats
         public const float RunSpeed = 148f;
 
         public readonly PlayerIndex PlayerIndex;
         public readonly PlayerInputs Inputs;
+
+        private Rectangle hitbox;
 
         PlayerBaseState currentState;
         SpriteSheet characterSheet;
@@ -44,6 +49,8 @@ namespace SideScroller2D.GameLogic.Player
 
             sprite = new Sprite(AssetsManager.GetTexture("character_nina"));
             characterSheet = new SpriteSheet(sprite.Texture, 16, 16);
+
+            hitbox = new Rectangle(0, 0, 16, 16);
 
             animations = new Dictionary<Animations, SpriteSheetAnimation>();
             animations.Add(Animations.Idle, new SpriteSheetAnimation(sprite, characterSheet, new int[] { 0 }));
@@ -96,6 +103,11 @@ namespace SideScroller2D.GameLogic.Player
             base.Update(gameTime);
 
             currentAnimation.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
+
+            if (Position.X > Main.TargetWidth - hitbox.Width)
+                Position = new Vector2(Main.TargetWidth - hitbox.Width, Position.Y);
+            else if (Position.X < 0)
+                Position = new Vector2(0, Position.Y);
 
             if (Speed.X < 0)
                 sprite.SpriteEffect = SpriteEffects.FlipHorizontally;

@@ -10,7 +10,6 @@ using Newtonsoft.Json.Linq;
 using Microsoft.Xna.Framework;
 
 using SideScroller2D.Graphics;
-using SideScroller2D.Managers;
 using SideScroller2D.Utilities;
 
 namespace SideScroller2D.GameLogic.Map
@@ -20,7 +19,9 @@ namespace SideScroller2D.GameLogic.Map
         public static Level LoadLevel()
         {
             JObject levelJson = JsonLoader.LoadJson("test_map01.json");
-            SpriteSheet tileset = new SpriteSheet(AssetsManager.GetTexture("tileset01"), 16, 16);
+            JObject tilesetJson = JsonLoader.LoadJson("tileset01.json");
+
+            SpriteSheet tileset = AssetsManager.GetTileset("tileset01");
 
             var width = levelJson["width"].Value<int>();
             var height = levelJson["height"].Value<int>();
@@ -51,20 +52,32 @@ namespace SideScroller2D.GameLogic.Map
 
                     var position = new Vector2(x * tilewidth, startPosY + y * tileheight);
 
-                    Sprite overlaySprite = null; 
+                    Sprite overlaySprite = null;
+                    bool solid = false;
+
                     if (overlayFrame >= 0)
                     {
+                        for (int i = 0; i < tilesetJson["tiles"].Count(); i++)
+                        {
+                            int id = tilesetJson["tiles"][i]["id"].Value<int>();
+
+                            if (id != overlayFrame)
+                                continue;
+
+                            solid = tilesetJson["tiles"][i]["properties"][0]["value"].Value<bool>();
+                        }
+
                         overlaySprite = new Sprite(tileset.Texture);
                         tileset.CropSpriteByFrame(overlaySprite, overlayFrame);
                     }
 
-                    var tile = new Tile(position, null, overlaySprite, null);
+                    var tile = new Tile(position, null, overlaySprite, null, solid);
 
                     tiles.Add(tile);
                 }
             }
 
-            return new Level(tiles, width, height);
+            return new Level(tiles, width, height, new Vector2(0, startPosY));
         }
     }
 }

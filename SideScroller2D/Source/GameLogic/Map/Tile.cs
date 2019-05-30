@@ -9,6 +9,8 @@ namespace SideScroller2D.GameLogic.Map
 {
     class Tile
     {
+        public readonly Rectangle Hitbox;
+
         public readonly Vector2 Position;
         public readonly bool Solid;
 
@@ -35,6 +37,8 @@ namespace SideScroller2D.GameLogic.Map
 
             this.Position = position;
             this.Solid = solid;
+
+            Hitbox = new Rectangle(position.ToPoint(), new Point(16, 16));
         }
 
         public void DrawBackground(SpriteBatch spriteBatch)
@@ -49,6 +53,11 @@ namespace SideScroller2D.GameLogic.Map
         {
             if (hasForeground)
                 foreground.Draw(spriteBatch, Position);
+        }
+
+        public void DrawFilledTile(SpriteBatch spriteBatch, Color color)
+        {
+            spriteBatch.FillRectangle(Hitbox, color);
         }
     }
 }
