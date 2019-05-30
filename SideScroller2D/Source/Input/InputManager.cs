@@ -11,6 +11,9 @@ namespace SideScroller2D.Input
 {
     static class InputManager
     {
+        public static KeyboardState CurrentKeyboardState { get { return currentState; } }
+        public static KeyboardState PreviousKeyboardState { get { return previousState; } }
+
         public static List<PlayerInputs> PlayerInputs;
 
         private static List<GamePadState> gamePadStates;

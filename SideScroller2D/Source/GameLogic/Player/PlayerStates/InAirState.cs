@@ -33,7 +33,7 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
 
             if (player.Position.Y > 300-16)
             {
-                player.Position = new Vector2(player.Position.X, 300-16);
+                //player.Position = new Vector2(player.Position.X, 300-16);
 
                 if (player.Speed.X == 0)
                     player.ChangeState(new IdleState(player));

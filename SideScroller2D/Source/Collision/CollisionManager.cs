@@ -10,38 +10,55 @@ namespace SideScroller2D.Collision
 {
     static class CollisionManager
     {
-        /// <summary>
-        /// Checks if a movable hitbox collides with a collider and calculates the position if it were to be pushed out of the collider.
-        /// </summary>
-        /// <param name="movable">The movable object</param>
-        /// <param name="collider">The collider the movable object interacts with</param>
-        /// <returns>The new location for the movable object</returns>
-        public static Point ResolveAABB(IMovableHitbox movable, Rectangle collider)
+        public static CollisionResult MoveEntity(MovableEntity movable, List<Rectangle> colliders)
         {
-            Point newPos = movable.Hitbox.Location;
+            CollisionResult result = new CollisionResult();
 
-            if (!movable.Hitbox.Intersects(collider))
-                return newPos;
+            movable.UpdateHorizontalMovement();
 
-            if (movable.Hitbox.Left < collider.Left)
+            foreach (Rectangle collider in colliders)
             {
-                newPos.X = collider.Left - movable.Hitbox.Width;
-            }
-            else if (movable.Hitbox.Right > collider.Right)
-            {
-                newPos.X = collider.Right;
+                if (!movable.Hitbox.Intersects(collider))
+                    continue;
+
+                if (movable.Hitbox.Left < collider.Left)
+                {
+                    movable.ChangePositionX((float)(collider.Left - movable.Hitbox.Width));
+
+                    result.Horizontal = CollisionResult.HorizontalResults.OnRight;
+                }
+
+                else if (movable.Hitbox.Right > collider.Right)
+                {
+                    movable.ChangePositionX((float)collider.Right);
+
+                    result.Horizontal = CollisionResult.HorizontalResults.OnLeft;
+                }
             }
 
-            if (movable.Hitbox.Top < collider.Top)
+            movable.UpdateVerticalMovement();
+
+            foreach (Rectangle collider in colliders)
             {
-                newPos.Y = collider.Top - movable.Hitbox.Height;
-            }
-            else if (movable.Hitbox.Bottom > collider.Bottom)
-            {
-                newPos.Y = collider.Bottom;
+                if (!movable.Hitbox.Intersects(collider))
+                    continue;
+
+                if (movable.Hitbox.Top < collider.Top)
+                {
+                    movable.ChangePositionY((float)(collider.Top - movable.Hitbox.Height));
+
+                    result.Vertical = CollisionResult.VerticalResults.OnBottom;
+                }
+
+                else if (movable.Hitbox.Bottom > collider.Bottom)
+                {
+                    movable.ChangePositionY((float)collider.Bottom);
+
+                    result.Vertical = CollisionResult.VerticalResults.OnTop;
+                }
             }
 
-            return newPos;
+            return result;
         }
     }
 }

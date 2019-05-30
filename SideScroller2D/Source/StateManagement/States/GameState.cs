@@ -30,7 +30,7 @@ namespace SideScroller2D.StateManagement
         public override void OnContentLoaded()
         {
             player = new Player(PlayerIndex.One);
-            player.Position = new Vector2(200 - 8, 300 - 48);
+            player.ChangePosition(new Vector2(200 - 8, 300 - 48));
 
             currentLevel = LevelLoader.LoadLevel();
         }
@@ -39,26 +39,16 @@ namespace SideScroller2D.StateManagement
         {
             player.Update(gameTime);
 
-            var from = currentLevel.Grid.ToGridLocation(player.Hitbox.Location.ToVector2());
-            var to = currentLevel.Grid.ToGridLocation((player.Hitbox.Location + player.Hitbox.Size).ToVector2());
+            if (player.Position == player.NextPostion)
+                return;
 
-            for (int y = from.Y; y <= to.Y; y++)
-            {
-                for (int x = from.X; x <= to.X; x++)
-                {
-                    var tile = currentLevel.GetTile(x, y);
+            var from = currentLevel.Grid.ToGridLocation(player.NextHitbox.Location.ToVector2());
+            var to = currentLevel.Grid.ToGridLocation((player.NextHitbox.Location + player.NextHitbox.Size).ToVector2());
 
-                    if (tile == null || !tile.Solid)
-                        continue;
+            var result = CollisionManager.MoveEntity(player, currentLevel.GetColliders(from, to));
 
-                    Vector2 newPos = CollisionManager.ResolveAABB(player, tile.Hitbox).ToVector2();
-
-                    if (player.Position.Y > newPos.Y)
-                        player.ChangeState(new IdleState(player));
-
-                    player.Position = newPos;
-                }
-            }
+            player.OnCollision(result);
+            player.UpdateInBounds();
         }
 
         public override void Draw(SpriteBatch spriteBatch)

@@ -15,7 +15,7 @@ using SideScroller2D.Collision;
 
 namespace SideScroller2D.GameLogic.Player
 {
-    class Player : Entity, IMovableHitbox
+    class Player : MovableEntity
     {
         public enum Animations
         {
@@ -26,7 +26,7 @@ namespace SideScroller2D.GameLogic.Player
             Duck
         }
 
-        public Rectangle Hitbox { get { return new Rectangle(Position.ToPoint() + hitbox.Location, hitbox.Size); } }
+        //public Rectangle Hitbox { get { return new Rectangle(Position.ToPoint() + hitbox.Location, hitbox.Size); } }
 
         // Stats
         public const float RunSpeed = 148f;
@@ -34,7 +34,7 @@ namespace SideScroller2D.GameLogic.Player
         public readonly PlayerIndex PlayerIndex;
         public readonly PlayerInputs Inputs;
 
-        private Rectangle hitbox;
+        //private Rectangle hitbox;
 
         PlayerBaseState currentState;
         SpriteSheet characterSheet;
@@ -75,44 +75,65 @@ namespace SideScroller2D.GameLogic.Player
 
         public override void Update(GameTime gameTime)
         {
+            UpdateMovement();
+
+            currentState.Update(gameTime);
+            currentAnimation.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
+
+            if (Speed.X < 0)
+                sprite.SpriteEffect = SpriteEffects.FlipHorizontally;
+            else if (Speed.X > 0)
+                sprite.SpriteEffect = SpriteEffects.None;
+        }
+
+        public void UpdateMovement()
+        {
             if (InputManager.IsDown(Inputs.Right))
             {
                 Acceleration += new Vector2(0.09f, 0);
 
+                if (Acceleration.X > 1)
+                    Acceleration.X = 1;
+
                 if (Speed.X <= 0)
                 {
                     Speed.X = Player.RunSpeed;
-                    Acceleration = new Vector2(0, Acceleration.Y);
+                    Acceleration.X = 0;
                 }
             }
             else if (InputManager.IsDown(Inputs.Left))
             {
                 Acceleration += new Vector2(0.09f, 0);
 
+                if (Acceleration.X > 1)
+                    Acceleration.X = 1;
+
                 if (Speed.X >= 0)
                 {
                     Speed.X = -Player.RunSpeed;
-                    Acceleration = new Vector2(0, Acceleration.Y);
+                    Acceleration.X = 0;
                 }
             }
             else
+            {
                 Acceleration -= new Vector2(0.09f, 0);
 
-            currentState.Update(gameTime);
+                if (Acceleration.X < 0)
+                    Acceleration.X = 0;
+            }
+        }
 
-            base.Update(gameTime);
+        public void UpdateInBounds()
+        {
+            if (position.X > Main.TargetWidth - hitbox.Width)
+                position = new Vector2(Main.TargetWidth - hitbox.Width, Position.Y);
+            else if (position.X < 0)
+                position = new Vector2(0, Position.Y);
+        }
 
-            currentAnimation.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
-
-            if (Position.X > Main.TargetWidth - hitbox.Width)
-                Position = new Vector2(Main.TargetWidth - hitbox.Width, Position.Y);
-            else if (Position.X < 0)
-                Position = new Vector2(0, Position.Y);
-
-            if (Speed.X < 0)
-                sprite.SpriteEffect = SpriteEffects.FlipHorizontally;
-            else if (Speed.X > 0)
-                sprite.SpriteEffect = SpriteEffects.None;
+        public override void OnCollision(CollisionResult collisionResult)
+        {
+            currentState.OnCollision(collisionResult);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

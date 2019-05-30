@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 using SideScroller2D.GameLogic.Player;
+using SideScroller2D.Collision;
 
 namespace SideScroller2D.GameLogic.Player.PlayerStates
 {
@@ -21,5 +22,7 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
 
         virtual public void OnEnter() { }
         virtual public void Update(GameTime gameTime) { }
+
+        virtual public void OnCollision(CollisionResult collisionResult) { }
     }
 }

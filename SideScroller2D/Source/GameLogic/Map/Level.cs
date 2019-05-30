@@ -38,12 +38,30 @@ namespace SideScroller2D.GameLogic.Map
                 {
                     var tile = GetTile(x, y);
 
-                    if (tile.Solid)
+                    if (tile != null && tile.Solid)
                         ouput.Add(tile);
                 }
             }
 
             return ouput;
+        }
+
+        public List<Rectangle> GetColliders(Point from, Point to)
+        {
+            var colliders = new List<Rectangle>();
+
+            for (int y = from.Y; y <= to.Y; y++)
+            {
+                for (int x = from.X; x <= to.X; x++)
+                {
+                    var tile = GetTile(x, y);
+
+                    if (tile != null && tile.Solid)
+                        colliders.Add(tile.Hitbox);
+                }
+            }
+
+            return colliders;
         }
 
         public Tile GetTile(int x, int y)

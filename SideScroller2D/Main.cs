@@ -15,6 +15,8 @@ namespace SideScroller2D
         public const int TargetWidth = 400;
         public const int TargetHeight = 300;
 
+        public static float DeltaTime { get; private set; }
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -72,7 +74,18 @@ namespace SideScroller2D
 
         protected override void Update(GameTime gameTime)
         {
+            DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             InputManager.UpdateState();
+
+#if DEBUG
+            // Frame by frame advancement
+            //if (InputManager.CurrentKeyboardState.IsKeyUp(Keys.M) || InputManager.PreviousKeyboardState.IsKeyDown(Keys.M))
+            //{
+            //    base.Update(gameTime);
+            //    return;
+            //}
+#endif
 
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             //    Exit();
