@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SideScroller2D.Graphics;
 using SideScroller2D.GameLogic.Player;
 using SideScroller2D.GameLogic.Player.PlayerStates;
-using SideScroller2D.GameLogic.Map;
+using SideScroller2D.GameLogic.Level;
 using SideScroller2D.Collision;
 
 namespace SideScroller2D.StateManagement
@@ -45,9 +45,10 @@ namespace SideScroller2D.StateManagement
             var from = currentLevel.Grid.ToGridLocation(player.NextHitbox.Location.ToVector2());
             var to = currentLevel.Grid.ToGridLocation((player.NextHitbox.Location + player.NextHitbox.Size).ToVector2());
 
-            var result = CollisionManager.MoveEntity(player, currentLevel.GetColliders(from, to));
+            var colliders = currentLevel.GetColliders(from, to);
+            var result = CollisionManager.MoveEntity(player, colliders);
 
-            player.OnCollision(result);
+            player.OnCollision(result, colliders);
             player.UpdateInBounds();
         }
 
@@ -56,24 +57,25 @@ namespace SideScroller2D.StateManagement
             currentLevel.DrawBackground(spriteBatch);
 
 #if DEBUG
-            var from = currentLevel.Grid.ToGridLocation(player.Hitbox.Location.ToVector2());
-            var to = currentLevel.Grid.ToGridLocation((player.Hitbox.Location + player.Hitbox.Size).ToVector2());
+            //var from = currentLevel.Grid.ToGridLocation(player.Hitbox.Location.ToVector2());
+            //var to = currentLevel.Grid.ToGridLocation((player.Hitbox.Location + player.Hitbox.Size).ToVector2());
 
-            for (int y = from.Y; y <= to.Y; y++)
-            {
-                for (int x = from.X; x <= to.X; x++)
-                {
-                    var tile = currentLevel.GetTile(x, y);
+            //for (int y = from.Y; y <= to.Y; y++)
+            //{
+            //    for (int x = from.X; x <= to.X; x++)
+            //    {
+            //        var tile = currentLevel.GetTile(x, y);
 
-                    if (tile == null)
-                        continue;
+            //        if (tile == null)
+            //            continue;
 
-                    tile.DrawFilledTile(spriteBatch, tile.Solid ? Color.Red * 0.6f : Color.Blue * 0.4f);
-                }
-            }
+            //        tile.DrawFilledTile(spriteBatch, tile.Solid ? Color.Red * 0.6f : Color.Blue * 0.4f);
+            //    }
+            //}
 #endif
 
             player.Draw(spriteBatch);
+            //spriteBatch.FillRectangle(player.Hitbox, Color.Black * 0.9f);
 
             currentLevel.DrawForeground(spriteBatch);
         }

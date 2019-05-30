@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using SideScroller2D.Graphics;
 
-namespace SideScroller2D.GameLogic.Map
+namespace SideScroller2D.GameLogic.Level
 {
     class Tile
     {

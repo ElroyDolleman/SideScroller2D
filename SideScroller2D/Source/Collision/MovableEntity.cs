@@ -11,9 +11,8 @@ using SideScroller2D.Graphics;
 
 namespace SideScroller2D.Collision
 {
-    abstract class MovableEntity
+    abstract class MovableEntity : Entity
     { 
-        public Vector2 Position { get { return position; } }
         public Vector2 NextPostion { get { return Position + Speed * Acceleration * Main.DeltaTime; } }
 
         public Rectangle Hitbox { get { return new Rectangle(Position.ToPoint() + hitbox.Location, hitbox.Size); } }
@@ -22,18 +21,11 @@ namespace SideScroller2D.Collision
         public Vector2 Speed = Vector2.Zero;
         public Vector2 Acceleration = Vector2.One;
 
-        protected Sprite sprite;
         protected Rectangle hitbox;
-        protected Vector2 position;
 
         protected MovableEntity()
         {
 
-        }
-
-        public virtual void Update(GameTime gameTime)
-        {
-            
         }
 
         public virtual void UpdateHorizontalMovement()
@@ -46,28 +38,9 @@ namespace SideScroller2D.Collision
             position.Y = NextPostion.Y;
         }
 
-        public virtual void ChangePosition(Vector2 position)
+        public virtual void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
         {
-            this.position = position;
-        }
-
-        public virtual void ChangePositionX(float newX)
-        {
-            this.position.X = newX;
-        }
-
-        public virtual void ChangePositionY(float newY)
-        {
-            this.position.Y = newY;
-        }
-
-        public virtual void OnCollision(CollisionResult collisionResult)
-        {
-        }
-
-        public virtual void Draw(SpriteBatch spriteBatch)
-        {
-            sprite.Draw(spriteBatch, Position);
+            
         }
     }
 }

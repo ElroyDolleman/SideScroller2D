@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 
-namespace SideScroller2D.GameLogic.Map
+namespace SideScroller2D.GameLogic.Level
 {
     class Grid
     {
@@ -48,6 +48,9 @@ namespace SideScroller2D.GameLogic.Map
         /// <param name="cellsPerRow">The amount of cells on 1 row</param>
         public int CellNumber(int x, int y, int cellsPerRow)
         {
+            if (x >= cellsPerRow || x < 0 || y < 0)
+                return -1;
+
             return y * cellsPerRow + x;
         }
 

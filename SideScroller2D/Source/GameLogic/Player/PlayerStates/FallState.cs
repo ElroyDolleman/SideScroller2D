@@ -26,7 +26,7 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
             base.Update(gameTime);
         }
 
-        public override void OnCollision(CollisionResult collisionResult)
+        public override void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
         {
             if (collisionResult.Vertical == CollisionResult.VerticalResults.OnBottom)
             {

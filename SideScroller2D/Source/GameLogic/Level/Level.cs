@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SideScroller2D.GameLogic.Map
+namespace SideScroller2D.GameLogic.Level
 {
     class Level
     {
@@ -108,17 +108,6 @@ namespace SideScroller2D.GameLogic.Map
                     int index = Grid.CellNumber(x, y, Size.X);
 
                     tiles[index].DrawForeground(spriteBatch);
-
-                    if (x == 2 && y == 17)
-                    {
-                        tiles[index].DrawFilledTile(spriteBatch, Color.Green * 0.45f);
-                        var test = Grid.ToWorldPosition(x, y);
-                        var test2 = Grid.ToGridLocation(test);
-
-                        int index2 = Grid.CellNumber(test2.X, test2.Y, Size.X);
-
-                        tiles[index2].DrawFilledTile(spriteBatch, Color.Green * 0.45f);
-                    }
                 }
             }
         }

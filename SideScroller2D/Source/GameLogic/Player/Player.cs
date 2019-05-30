@@ -50,7 +50,8 @@ namespace SideScroller2D.GameLogic.Player
             sprite = new Sprite(AssetsManager.GetTexture("character_nina"));
             characterSheet = new SpriteSheet(sprite.Texture, 16, 16);
 
-            hitbox = new Rectangle(0, 0, 16, 16);
+            sprite.Origin = new Vector2(3, 2);
+            hitbox = new Rectangle(0, 0, 10, 14);
 
             animations = new Dictionary<Animations, SpriteSheetAnimation>();
             animations.Add(Animations.Idle, new SpriteSheetAnimation(sprite, characterSheet, new int[] { 0 }));
@@ -131,9 +132,9 @@ namespace SideScroller2D.GameLogic.Player
                 position = new Vector2(0, Position.Y);
         }
 
-        public override void OnCollision(CollisionResult collisionResult)
+        public override void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
         {
-            currentState.OnCollision(collisionResult);
+            currentState.OnCollision(collisionResult, colliders);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

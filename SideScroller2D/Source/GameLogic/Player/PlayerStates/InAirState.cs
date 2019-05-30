@@ -31,16 +31,16 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
         {
             player.Speed += new Vector2(0, GetGravity());
 
-            if (player.Position.Y > 300-16)
-            {
-                //player.Position = new Vector2(player.Position.X, 300-16);
+            //if (player.Position.Y > 300-16)
+            //{
+            //    //player.Position = new Vector2(player.Position.X, 300-16);
 
-                if (player.Speed.X == 0)
-                    player.ChangeState(new IdleState(player));
+            //    if (player.Speed.X == 0)
+            //        player.ChangeState(new IdleState(player));
 
-                else
-                    player.ChangeState(new RunState(player));
-            }
+            //    else
+            //        player.ChangeState(new RunState(player));
+            //}
         }
 
         public virtual float GetGravity()

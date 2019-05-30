@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework;
 using SideScroller2D.Graphics;
 using SideScroller2D.Utilities;
 
-namespace SideScroller2D.GameLogic.Map
+namespace SideScroller2D.GameLogic.Level
 {
     static class LevelLoader
     {
