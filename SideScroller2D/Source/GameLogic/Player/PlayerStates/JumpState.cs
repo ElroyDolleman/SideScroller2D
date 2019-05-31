@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 
 using SideScroller2D.Input;
 using SideScroller2D.Audio;
+using SideScroller2D.Collision;
 
 namespace SideScroller2D.GameLogic.Player.PlayerStates
 {
@@ -46,6 +47,14 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
             slowGravity = defaultGravity;
 
             return base.GetGravity();
+        }
+
+        public override void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
+        {
+            if (collisionResult.Vertical == CollisionResult.VerticalResults.OnTop)
+            {
+                player.Speed.Y = 0;
+            }
         }
     }
 }

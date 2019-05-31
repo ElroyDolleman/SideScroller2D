@@ -126,7 +126,7 @@ namespace SideScroller2D.GameLogic.Player
 
         public void UpdateInBounds()
         {
-            if (position.X > Main.TargetWidth - hitbox.Width)
+            if (position.X > Main.TargetWidth - hitbox.Width) 
                 position = new Vector2(Main.TargetWidth - hitbox.Width, Position.Y);
             else if (position.X < 0)
                 position = new Vector2(0, Position.Y);
