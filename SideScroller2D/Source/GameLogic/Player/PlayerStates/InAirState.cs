@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
-
+using SideScroller2D.Collision;
 using SideScroller2D.Input;
 
 namespace SideScroller2D.GameLogic.Player.PlayerStates
@@ -49,6 +49,18 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
                 return 0;
 
             return defaultGravity;
+        }
+
+        public override void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
+        {
+            if (collisionResult.Vertical == CollisionResult.VerticalResults.OnBottom)
+            {
+                if (player.Speed.X == 0)
+                    player.ChangeState(new IdleState(player));
+
+                else
+                    player.ChangeState(new RunState(player));
+            }
         }
     }
 }

@@ -24,6 +24,8 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
 
         public override void Update(GameTime gameTime)
         {
+            player.UpdateMovement();
+
             //if (InputManager.JustPressed(player.Inputs.Jump))
             //{
             //    player.ChangeState(new JumpState(player));

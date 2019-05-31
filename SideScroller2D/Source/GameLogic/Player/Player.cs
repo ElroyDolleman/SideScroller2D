@@ -23,7 +23,8 @@ namespace SideScroller2D.GameLogic.Player
             Walk,
             Jump,
             Fall,
-            Duck
+            Duck,
+            WallSlide
         }
 
         //public Rectangle Hitbox { get { return new Rectangle(Position.ToPoint() + hitbox.Location, hitbox.Size); } }
@@ -58,6 +59,7 @@ namespace SideScroller2D.GameLogic.Player
             animations.Add(Animations.Walk, new SpriteSheetAnimation(sprite, characterSheet, new int[] { 0, 1 }));
             animations.Add(Animations.Jump, new SpriteSheetAnimation(sprite, characterSheet, new int[] { 2 }));
             animations.Add(Animations.Fall, new SpriteSheetAnimation(sprite, characterSheet, new int[] { 3 }));
+            animations.Add(Animations.WallSlide, new SpriteSheetAnimation(sprite, characterSheet, new int[] { 7 }));
 
             ChangeState(new IdleState(this));
         }
@@ -76,7 +78,7 @@ namespace SideScroller2D.GameLogic.Player
 
         public override void Update(GameTime gameTime)
         {
-            UpdateMovement();
+            //UpdateMovement();
 
             currentState.Update(gameTime);
             currentAnimation.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);

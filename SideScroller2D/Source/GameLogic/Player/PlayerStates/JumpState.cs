@@ -16,10 +16,12 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
     {
         protected float jumpPower = 332f;
         protected float slowGravity = 14f;
+        protected bool canMove;
 
-        public JumpState(Player player)
+        public JumpState(Player player, bool canMove = true)
             : base(player)
         {
+            this.canMove = canMove;
         }
 
         public override void OnEnter()
@@ -34,6 +36,9 @@ namespace SideScroller2D.GameLogic.Player.PlayerStates
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            if (canMove)
+                player.UpdateMovement();
 
             if (player.Speed.Y > 0)
                 player.ChangeState(new FallState(player));
