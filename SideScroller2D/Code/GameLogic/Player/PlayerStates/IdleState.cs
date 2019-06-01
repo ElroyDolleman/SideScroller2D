@@ -30,13 +30,12 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
         {
             base.Update(gameTime);
 
-            if (InputManager.JustPressed(player.Inputs.Jump))
+            if (player.CurrentState != this)
+                return;
+
+            if (player.Acceleration.X != 0 && player.Speed.X != 0)
             {
-                player.ChangeState(new JumpState(player));
-            }
-            else if (player.Acceleration.X != 0 && player.Speed.X != 0)
-            {
-                player.ChangeState(new RunState(player));
+                player.ChangeState(player.RunState);
             }
         }
     }

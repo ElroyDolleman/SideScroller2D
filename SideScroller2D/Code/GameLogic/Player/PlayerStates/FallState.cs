@@ -26,27 +26,25 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
         {
             base.Update(gameTime);
 
-            player.UpdateMovement();
+            player.UpdateHorizontalMovementControls();
         }
 
         public override void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
         {
-            if (collisionResult.Vertical == CollisionResult.VerticalResults.OnBottom)
-            {
-                if (player.Speed.X == 0)
-                    player.ChangeState(new IdleState(player));
+            base.OnCollision(collisionResult, colliders);
 
-                else
-                    player.ChangeState(new RunState(player));
-            }
+            if (player.CurrentState != this)
+                return;
 
-            else if (collisionResult.Horizontal == CollisionResult.HorizontalResults.OnRight)
+            if (collisionResult.Horizontal == CollisionResult.HorizontalResults.OnRight)
             {
-                player.ChangeState(new WallSlideState(player, 1));
+                player.WallSlideState.Direction = 1;
+                player.ChangeState(player.WallSlideState);
             }
             else if (collisionResult.Horizontal == CollisionResult.HorizontalResults.OnLeft)
             {
-                player.ChangeState(new WallSlideState(player, -1));
+                player.WallSlideState.Direction = -1;
+                player.ChangeState(player.WallSlideState);
             }
         }
     }

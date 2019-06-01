@@ -15,13 +15,12 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
     class JumpState : InAirState
     {
         protected float jumpPower = 332f;
-        protected float slowGravity = 14f;
-        protected bool canMove;
+        protected float gravitySlowDownMultiplier = 0.4f;
 
-        public JumpState(Player player, bool canMove = true)
+        public JumpState(Player player)
             : base(player)
         {
-            this.canMove = canMove;
+
         }
 
         public override void OnEnter()
@@ -37,19 +36,16 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
         {
             base.Update(gameTime);
 
-            if (canMove)
-                player.UpdateMovement();
+            player.UpdateHorizontalMovementControls();
 
             if (player.Speed.Y > 0)
-                player.ChangeState(new FallState(player));
+                player.ChangeState(player.FallState);
         }
 
         public override float GetGravity()
         {
             if (InputManager.IsDown(player.Inputs.Jump))
-                return slowGravity;
-
-            slowGravity = defaultGravity;
+                return defaultGravity * gravitySlowDownMultiplier;
 
             return base.GetGravity();
         }
@@ -58,8 +54,13 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
         {
             if (collisionResult.Vertical == CollisionResult.VerticalResults.OnTop)
             {
-                player.Speed.Y = 0;
+                HeadBonk();
             }
+        }
+
+        protected void HeadBonk()
+        {
+            player.Speed.Y = 0;
         }
     }
 }

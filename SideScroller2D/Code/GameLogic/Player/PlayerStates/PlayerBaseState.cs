@@ -23,6 +23,13 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
         virtual public void OnEnter() { }
         virtual public void Update(GameTime gameTime) { }
 
-        virtual public void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders) { }
+        virtual public void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
+        {
+            if (collisionResult.Horizontal == CollisionResult.HorizontalResults.OnRight || collisionResult.Horizontal == CollisionResult.HorizontalResults.OnLeft)
+            {
+                player.Acceleration.X = 0;
+                player.Speed.X = 0;
+            }
+        }
     }
 }

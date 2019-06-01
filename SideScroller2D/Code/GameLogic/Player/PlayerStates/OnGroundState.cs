@@ -24,20 +24,18 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 
         public override void Update(GameTime gameTime)
         {
-            player.UpdateMovement();
+            player.UpdateHorizontalMovementControls();
 
-            //if (InputManager.JustPressed(player.Inputs.Jump))
-            //{
-            //    player.ChangeState(new JumpState(player));
-            //}
-            //else if (InputManager.IsDown(player.Inputs.Left) || InputManager.IsDown(player.Inputs.Right))
-            //{
-            //    player.ChangeState(new RunState(player));
-            //}
+            if (InputManager.JustPressed(player.Inputs.Jump))
+            {
+                player.ChangeState(player.JumpState);
+            }
         }
 
         public override void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
         {
+            base.OnCollision(collisionResult, colliders);
+
             foreach (Rectangle collider in colliders)
             {
                 // Check if a collider is directly underneath the player, if so stop this function to prevent going in the FallState
@@ -45,7 +43,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
                     return;
             }
             
-            player.ChangeState(new FallState(player));
+            player.ChangeState(player.FallState);
         }
     }
 }

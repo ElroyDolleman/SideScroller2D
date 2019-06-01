@@ -12,8 +12,8 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 {
     class InAirState : PlayerBaseState
     {
-        protected const float maxFallspeed = 500f;
-        protected const float defaultGravity = 30f;
+        protected float maxFallspeed = 500f;
+        protected float defaultGravity = 30f;
 
         bool movesRight { get { return player.Speed.X > 0; } }
 
@@ -29,38 +29,37 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 
         public override void Update(GameTime gameTime)
         {
-            player.Speed += new Vector2(0, GetGravity());
+            if (player.Speed.Y < maxFallspeed)
+                player.Speed += new Vector2(0, GetGravity());
 
-            //if (player.Position.Y > 300-16)
-            //{
-            //    //player.Position = new Vector2(player.Position.X, 300-16);
-
-            //    if (player.Speed.X == 0)
-            //        player.ChangeState(new IdleState(player));
-
-            //    else
-            //        player.ChangeState(new RunState(player));
-            //}
+            else if (player.Speed.Y > maxFallspeed)
+                player.Speed.Y = maxFallspeed;
         }
 
         public virtual float GetGravity()
         {
-            if (player.Speed.Y > maxFallspeed)
-                return 0;
-
             return defaultGravity;
         }
 
         public override void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
         {
+            base.OnCollision(collisionResult, colliders);
+
             if (collisionResult.Vertical == CollisionResult.VerticalResults.OnBottom)
             {
-                if (player.Speed.X == 0)
-                    player.ChangeState(new IdleState(player));
-
-                else
-                    player.ChangeState(new RunState(player));
+                Land();
             }
+        }
+
+        protected void Land()
+        {
+            player.Speed.Y = 0;
+
+            if (player.Speed.X == 0)
+                player.ChangeState(player.IdleState);
+
+            else
+                player.ChangeState(player.RunState);
         }
     }
 }

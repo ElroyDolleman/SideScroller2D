@@ -27,17 +27,21 @@ namespace SideScroller2D.Code.GameLogic.Player
             WallSlide
         }
 
-        //public Rectangle Hitbox { get { return new Rectangle(Position.ToPoint() + hitbox.Location, hitbox.Size); } }
-
         // Stats
         public const float RunSpeed = 148f;
+
+        public PlayerBaseState CurrentState { get; protected set; }
 
         public readonly PlayerIndex PlayerIndex;
         public readonly PlayerInputs Inputs;
 
-        //private Rectangle hitbox;
+        // States
+        public IdleState IdleState;
+        public RunState RunState;
+        public JumpState JumpState;
+        public FallState FallState;
+        public WallSlideState WallSlideState;
 
-        PlayerBaseState currentState;
         SpriteSheet characterSheet;
 
         Dictionary<Animations, SpriteSheetAnimation> animations;
@@ -61,13 +65,24 @@ namespace SideScroller2D.Code.GameLogic.Player
             animations.Add(Animations.Fall, new SpriteSheetAnimation(sprite, characterSheet, new int[] { 3 }));
             animations.Add(Animations.WallSlide, new SpriteSheetAnimation(sprite, characterSheet, new int[] { 7 }));
 
-            ChangeState(new IdleState(this));
+            InitializeStates();
+        }
+
+        private void InitializeStates()
+        {
+            IdleState = new IdleState(this);
+            RunState = new RunState(this);
+            JumpState = new JumpState(this);
+            FallState = new FallState(this);
+            WallSlideState = new WallSlideState(this);
+
+            ChangeState(IdleState);
         }
 
         public void ChangeState(PlayerBaseState newState)
         {
-            currentState = newState;
-            currentState.OnEnter();
+            CurrentState = newState;
+            CurrentState.OnEnter();
         }
 
         public void ChangeAnimation(Animations animation)
@@ -78,51 +93,47 @@ namespace SideScroller2D.Code.GameLogic.Player
 
         public override void Update(GameTime gameTime)
         {
-            //UpdateMovement();
-
-            currentState.Update(gameTime);
+            CurrentState.Update(gameTime);
             currentAnimation.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
 
-            if (Speed.X < 0)
+            if (Speed.X * Acceleration.X < 0)
                 sprite.SpriteEffect = SpriteEffects.FlipHorizontally;
-            else if (Speed.X > 0)
+            else if (Speed.X * Acceleration.X > 0)
                 sprite.SpriteEffect = SpriteEffects.None;
         }
 
-        public void UpdateMovement()
+        public void UpdateHorizontalMovementControls()
+        {
+            UpdateHorizontalMovementControls(Player.RunSpeed);
+        }
+
+        public void UpdateHorizontalMovementControls(float speed)
         {
             if (InputManager.IsDown(Inputs.Right))
             {
-                Acceleration += new Vector2(0.09f, 0);
+                if (Acceleration.X < 1)
+                    Acceleration += new Vector2(0.09f, 0);
 
-                if (Acceleration.X > 1)
-                    Acceleration.X = 1;
-
-                if (Speed.X <= 0)
-                {
-                    Speed.X = Player.RunSpeed;
-                    Acceleration.X = 0;
-                }
+                Speed.X = speed;
             }
             else if (InputManager.IsDown(Inputs.Left))
             {
-                Acceleration += new Vector2(0.09f, 0);
+                if (Acceleration.X > -1)
+                    Acceleration -= new Vector2(0.09f, 0);
 
-                if (Acceleration.X > 1)
-                    Acceleration.X = 1;
-
-                if (Speed.X >= 0)
-                {
-                    Speed.X = -Player.RunSpeed;
-                    Acceleration.X = 0;
-                }
+                Speed.X = speed;
             }
             else
             {
-                Acceleration -= new Vector2(0.09f, 0);
+                int dir = Acceleration.X > 0 ? 1 : -1;
 
-                if (Acceleration.X < 0)
+                Acceleration -= new Vector2(0.09f * dir, 0);
+
+                if ((Acceleration.X < 0 && dir == 1) || (Acceleration.X < 0 && dir == -1))
+                {
+                    Speed.X = 0;
                     Acceleration.X = 0;
+                }
             }
         }
 
@@ -136,7 +147,7 @@ namespace SideScroller2D.Code.GameLogic.Player
 
         public override void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
         {
-            currentState.OnCollision(collisionResult, colliders);
+            CurrentState.OnCollision(collisionResult, colliders);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

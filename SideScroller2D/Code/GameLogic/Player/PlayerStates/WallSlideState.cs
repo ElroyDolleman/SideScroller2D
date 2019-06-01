@@ -13,18 +13,18 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 {
     class WallSlideState : InAirState
     {
-        protected int direction;
+        public int Direction = 1;
 
-        public WallSlideState(Player player, int direction)
+        public WallSlideState(Player player)
             : base(player)
         {
-            this.direction = direction;
+            maxFallspeed = 40f;
         }
 
         public override void OnEnter()
         {
-            player.Speed = Vector2.Zero;
-            player.Acceleration.X = 1;
+            player.Speed.X = 0;
+            player.Acceleration.X = 0;
 
             player.ChangeAnimation(Player.Animations.WallSlide);
         }
@@ -35,45 +35,28 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 
             if (InputManager.JustPressed(player.Inputs.Jump))
             {
-                player.Speed.X = Player.RunSpeed * (direction * -1);
-                player.Acceleration.X = 1;
+                player.Speed.X = Player.RunSpeed;
+                player.Acceleration.X = 2f * (Direction * -1);
 
-                player.ChangeState(new JumpState(player, false));
+                player.ChangeState(player.JumpState);
             }
-        }
-
-        public override float GetGravity()
-        {
-            if (player.Speed.Y > maxFallspeed / 12)
-            {
-                player.Speed.Y = maxFallspeed / 12;
-                return 0;
-            }
-
-            return defaultGravity;
         }
 
         public override void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
         {
-            if (collisionResult.Vertical == CollisionResult.VerticalResults.OnBottom)
-            {
-                if (player.Speed.X == 0)
-                    player.ChangeState(new IdleState(player));
+            base.OnCollision(collisionResult, colliders);
 
-                else
-                    player.ChangeState(new RunState(player));
-
+            if (player.CurrentState != this)
                 return;
-            }
 
-            bool hold = (direction == 1 && InputManager.IsDown(player.Inputs.Right)) || (direction == -1 && InputManager.IsDown(player.Inputs.Left));
+            bool hold = (Direction == 1 && InputManager.IsDown(player.Inputs.Right)) || (Direction == -1 && InputManager.IsDown(player.Inputs.Left));
 
             if (hold)
             {
                 foreach (Rectangle collider in colliders)
                 {
-                    int side = direction == 1 ? player.Hitbox.Right : player.Hitbox.Left;
-                    int colliderSide = direction == 1 ? collider.Left : collider.Right;
+                    int side = Direction == 1 ? player.Hitbox.Right : player.Hitbox.Left;
+                    int colliderSide = Direction == 1 ? collider.Left : collider.Right;
 
                     // As long as there is a wall next to the player prevent changing state
                     if (side == colliderSide && player.Hitbox.Top < collider.Bottom && player.Hitbox.Bottom > collider.Top)
@@ -81,7 +64,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
                 }
             }
 
-            player.ChangeState(new FallState(player));
+            player.ChangeState(player.FallState);
         }
     }
 }
