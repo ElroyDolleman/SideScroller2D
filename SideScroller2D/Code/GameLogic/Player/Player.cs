@@ -29,6 +29,7 @@ namespace SideScroller2D.Code.GameLogic.Player
 
         // Stats
         public const float RunSpeed = 148f;
+        public const float RunAcceleration = 0.09f;
 
         public PlayerBaseState CurrentState { get; protected set; }
 
@@ -94,6 +95,7 @@ namespace SideScroller2D.Code.GameLogic.Player
         public override void Update(GameTime gameTime)
         {
             CurrentState.Update(gameTime);
+
             currentAnimation.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
 
             if (Speed.X * Acceleration.X < 0)
@@ -104,32 +106,31 @@ namespace SideScroller2D.Code.GameLogic.Player
 
         public void UpdateHorizontalMovementControls()
         {
-            UpdateHorizontalMovementControls(Player.RunSpeed);
+            UpdateHorizontalMovementControls(RunSpeed, RunAcceleration);
         }
 
-        public void UpdateHorizontalMovementControls(float speed)
+        public void UpdateHorizontalMovementControls(float speed, float accelerationSpeed)
         {
             if (InputManager.IsDown(Inputs.Right))
             {
                 if (Acceleration.X < 1)
-                    Acceleration += new Vector2(0.09f, 0);
+                    Acceleration.X = Math.Min(1, Acceleration.X + accelerationSpeed);
 
                 Speed.X = speed;
             }
             else if (InputManager.IsDown(Inputs.Left))
             {
                 if (Acceleration.X > -1)
-                    Acceleration -= new Vector2(0.09f, 0);
+                    Acceleration.X = Math.Max(-1, Acceleration.X - accelerationSpeed);
 
                 Speed.X = speed;
             }
-            else
+            else if (Acceleration.X != 0)
             {
                 int dir = Acceleration.X > 0 ? 1 : -1;
+                Acceleration.X -= accelerationSpeed * dir;
 
-                Acceleration -= new Vector2(0.09f * dir, 0);
-
-                if ((Acceleration.X < 0 && dir == 1) || (Acceleration.X < 0 && dir == -1))
+                if ((Acceleration.X < 0 && dir == 1) || (Acceleration.X > 0 && dir == -1))
                 {
                     Speed.X = 0;
                     Acceleration.X = 0;

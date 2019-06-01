@@ -12,8 +12,8 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 {
     class InAirState : PlayerBaseState
     {
-        protected float maxFallspeed = 500f;
-        protected float defaultGravity = 30f;
+        protected float maxFallspeed = 280f;
+        protected float defaultGravity = 26f;
 
         bool movesRight { get { return player.Speed.X > 0; } }
 

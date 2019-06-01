@@ -14,7 +14,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 {
     class JumpState : InAirState
     {
-        protected float jumpPower = 332f;
+        protected float jumpPower = 290f;
         protected float gravitySlowDownMultiplier = 0.4f;
 
         public JumpState(Player player)
