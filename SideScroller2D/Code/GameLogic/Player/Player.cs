@@ -42,6 +42,7 @@ namespace SideScroller2D.Code.GameLogic.Player
         public JumpState JumpState;
         public FallState FallState;
         public WallSlideState WallSlideState;
+        public WallJumpState WallJumpState;
 
         SpriteSheet characterSheet;
 
@@ -76,6 +77,7 @@ namespace SideScroller2D.Code.GameLogic.Player
             JumpState = new JumpState(this);
             FallState = new FallState(this);
             WallSlideState = new WallSlideState(this);
+            WallJumpState = new WallJumpState(this);
 
             ChangeState(IdleState);
         }

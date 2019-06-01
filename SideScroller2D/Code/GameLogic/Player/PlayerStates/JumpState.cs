@@ -34,7 +34,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
+            ApplyGravity();
 
             player.UpdateHorizontalMovementControls();
 
@@ -58,7 +58,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             }
         }
 
-        protected void HeadBonk()
+        protected virtual void HeadBonk()
         {
             player.Speed.Y = 0;
         }

@@ -24,7 +24,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
+            ApplyGravity();
 
             player.UpdateHorizontalMovementControls();
         }

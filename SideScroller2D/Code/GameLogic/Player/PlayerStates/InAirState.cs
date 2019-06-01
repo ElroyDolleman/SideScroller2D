@@ -29,8 +29,13 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 
         public override void Update(GameTime gameTime)
         {
+            
+        }
+
+        protected virtual void ApplyGravity()
+        {
             if (player.Speed.Y < maxFallspeed)
-                player.Speed += new Vector2(0, GetGravity());
+                player.Speed.Y += GetGravity();
 
             else if (player.Speed.Y > maxFallspeed)
                 player.Speed.Y = maxFallspeed;

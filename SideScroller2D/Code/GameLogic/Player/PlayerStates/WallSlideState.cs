@@ -31,14 +31,12 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
+            ApplyGravity();
 
             if (InputManager.JustPressed(player.Inputs.Jump))
             {
-                player.Speed.X = Player.RunSpeed;
-                player.Acceleration.X = 2f * (Direction * -1);
-
-                player.ChangeState(player.JumpState);
+                player.WallJumpState.Direction = Direction;
+                player.ChangeState(player.WallJumpState);
             }
         }
 
