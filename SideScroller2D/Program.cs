@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SideScroller2D
+namespace SideScroller2D.Code
 {
 #if WINDOWS || LINUX
     /// <summary>

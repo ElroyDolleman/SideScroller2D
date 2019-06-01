@@ -2,13 +2,14 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using SideScroller2D.Graphics;
-using SideScroller2D.StateManagement;
-using SideScroller2D.Utilities;
-using SideScroller2D.Input;
-using SideScroller2D.Audio;
+using SideScroller2D.Code.Graphics;
+using SideScroller2D.Code.StateManagement;
+using SideScroller2D.Code.StateManagement.States;
+using SideScroller2D.Code.Utilities;
+using SideScroller2D.Code.Input;
+using SideScroller2D.Code.Audio;
 
-namespace SideScroller2D
+namespace SideScroller2D.Code
 {
     public class Main : Game
     {
