@@ -15,8 +15,8 @@ namespace SideScroller2D.Code.Collision
     { 
         public Vector2 NextPostion { get { return Position + Speed * Acceleration * Main.DeltaTime; } }
 
-        public Rectangle Hitbox { get { return new Rectangle(Position.ToPoint() + hitbox.Location, hitbox.Size); } }
-        public Rectangle NextHitbox { get { return new Rectangle(NextPostion.ToPoint() + hitbox.Location, hitbox.Size); } }
+        public Rectangle Hitbox { get { return new Rectangle((int)Math.Round(Position.X) + hitbox.Location.X, (int)Math.Round(Position.Y) + hitbox.Location.Y, hitbox.Width, hitbox.Height); } }
+        public Rectangle NextHitbox { get { return new Rectangle((int)Math.Round(NextPostion.X) + hitbox.Location.X, (int)Math.Round(NextPostion.Y) + hitbox.Location.Y, hitbox.Width, hitbox.Height); } }
 
         public Vector2 Speed = Vector2.Zero;
         public Vector2 Acceleration = Vector2.One;

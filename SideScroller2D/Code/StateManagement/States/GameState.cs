@@ -42,8 +42,8 @@ namespace SideScroller2D.Code.StateManagement.States
             //if (player.Position == player.NextPostion)
             //    return;
 
-            var from = currentLevel.Grid.ToGridLocation(player.NextHitbox.Location.ToVector2() - Vector2.One);
-            var to = currentLevel.Grid.ToGridLocation((player.NextHitbox.Location + player.NextHitbox.Size).ToVector2() + Vector2.One);
+            var from = currentLevel.Grid.ToGridLocation(player.NextHitbox.Location.ToVector2() - Vector2.One * 2);
+            var to = currentLevel.Grid.ToGridLocation((player.NextHitbox.Location + player.NextHitbox.Size).ToVector2() + Vector2.One * 2);
 
             var colliders = currentLevel.GetColliders(from, to);
             var result = CollisionManager.MoveEntity(player, colliders);

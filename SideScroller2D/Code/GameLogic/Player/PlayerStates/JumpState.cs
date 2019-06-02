@@ -14,8 +14,8 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 {
     class JumpState : InAirState
     {
-        protected float jumpPower = 290f;
-        protected float gravitySlowDownMultiplier = 0.4f;
+        protected float jumpPower = 280f;
+        protected float gravitySlowDownMultiplier = 0.39f;
 
         public JumpState(Player player)
             : base(player)
@@ -54,14 +54,40 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             if (InputManager.IsDown(player.Inputs.Jump))
                 return defaultGravity * gravitySlowDownMultiplier;
 
-            return base.GetGravity();
+            return base.GetGravity() * 1.4f;
         }
 
         public override void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
         {
             if (collisionResult.Vertical == CollisionResult.VerticalResults.OnTop)
             {
-                HeadBonk();
+                bool doHeadBonk = true;
+                int count = 0;
+                float newXPos = player.Position.X;
+
+                foreach (Rectangle collider in colliders)
+                {
+                    if (player.Hitbox.Top == collider.Bottom)
+                        count++;
+
+                    if (count == 1 && (MathHelper.Distance(player.Hitbox.Left, collider.Left) > 4 && MathHelper.Distance(player.Hitbox.Right, collider.Right) > 4))
+                    {
+                        doHeadBonk = false;
+
+                        if (player.Hitbox.Left < collider.Left)
+                            newXPos = collider.Left - player.Hitbox.Width;
+
+                        else if (player.Hitbox.Right > collider.Right)
+                            newXPos = collider.Right;
+                    }
+                }
+
+                if (doHeadBonk || count > 1)
+                    HeadBonk();
+                else
+                {
+                    player.ChangePosition(new Vector2(newXPos, player.Position.Y - 1));
+                }
             }
 
             base.OnCollision(collisionResult, colliders);
