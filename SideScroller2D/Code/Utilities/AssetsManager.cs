@@ -20,6 +20,7 @@ namespace SideScroller2D.Code.Utilities
     {
         private static Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
         private static Dictionary<string, SpriteSheet> tilesets = new Dictionary<string, SpriteSheet>();
+        private static Dictionary<string, SpriteFont> spritefonts = new Dictionary<string, SpriteFont>();
 
         public static void LoadTexture2D(ContentManager content, string key)
         {
@@ -44,6 +45,11 @@ namespace SideScroller2D.Code.Utilities
             tilesets.Add(key, new SpriteSheet(content.Load<Texture2D>(textureFile), width, height));
         }
 
+        public static void LoadFont(ContentManager content, string fontFile)
+        {
+            spritefonts.Add(fontFile, content.Load<SpriteFont>(fontFile));
+        }
+
         public static Texture2D GetTexture(string key)
         {
 #if DEBUG
@@ -66,6 +72,18 @@ namespace SideScroller2D.Code.Utilities
             }
 #endif
             return tilesets[key];
+        }
+
+        public static SpriteFont GetFont(string key)
+        {
+#if DEBUG
+            if (!spritefonts.ContainsKey(key))
+            {
+                Console.WriteLine("Warning: There is no font loaded with the key {0}", key);
+                return null;
+            }
+#endif
+            return spritefonts[key];
         }
     }
 }

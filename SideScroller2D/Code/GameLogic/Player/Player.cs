@@ -28,10 +28,38 @@ namespace SideScroller2D.Code.GameLogic.Player
         }
 
         // Stats
-        public const float RunSpeed = 148f;
+        public const float RunSpeed = 132f;
         public const float RunAcceleration = 0.09f;
 
         public PlayerBaseState CurrentState { get; protected set; }
+        public PlayerBaseState PreviousState { get; protected set; }
+
+        public bool HoldsDirectionButtonTowardsFacingDirection { get { return (InputManager.IsDown(Inputs.Right) && FacingDirection == 1) || (InputManager.IsDown(Inputs.Left) && FacingDirection == -1); } }
+
+        /// <summary>
+        /// The FacingDirection is determined by the player's speed. If speed == 0, then the FacingDirection is determined by the sprite.
+        /// The FacingDirection is 1 when facing right and -1 when facing left
+        /// </summary>
+        public int FacingDirection
+        {
+            get
+            {
+                if (Speed.X * Acceleration.X < 0) return -1;
+                else if (Speed.X * Acceleration.X > 0) return 1;
+                return sprite.SpriteEffect == SpriteEffects.FlipHorizontally ? -1 : 1;
+            }
+            set
+            {
+                if (value == 1)
+                    sprite.SpriteEffect = SpriteEffects.None;
+                else if (value == -1)
+                    sprite.SpriteEffect = SpriteEffects.FlipHorizontally;
+#if DEBUG
+                else
+                    Console.WriteLine("Warning: FacingDirection can only be 1 or -1");
+#endif
+            }
+        }
 
         public readonly PlayerIndex PlayerIndex;
         public readonly PlayerInputs Inputs;
@@ -79,11 +107,14 @@ namespace SideScroller2D.Code.GameLogic.Player
             WallSlideState = new WallSlideState(this);
             WallJumpState = new WallJumpState(this);
 
+            CurrentState = IdleState;
             ChangeState(IdleState);
         }
 
         public void ChangeState(PlayerBaseState newState)
         {
+            PreviousState = CurrentState;
+
             CurrentState = newState;
             CurrentState.OnEnter();
         }
@@ -101,9 +132,9 @@ namespace SideScroller2D.Code.GameLogic.Player
             currentAnimation.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
 
             if (Speed.X * Acceleration.X < 0)
-                sprite.SpriteEffect = SpriteEffects.FlipHorizontally;
+                FacingDirection = -1;
             else if (Speed.X * Acceleration.X > 0)
-                sprite.SpriteEffect = SpriteEffects.None;
+                FacingDirection = 1;
         }
 
         public void UpdateHorizontalMovementControls()
@@ -155,6 +186,15 @@ namespace SideScroller2D.Code.GameLogic.Player
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+#if DEBUG
+            var font = AssetsManager.GetFont("default_pixel_font");
+
+            spriteBatch.DrawString(font, "Speed: " + Speed.ToString(), Vector2.Zero, Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(font, "Accel: " + Acceleration.ToString(), new Vector2(0, 10), Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(font, "Total: " + (Speed * Acceleration).ToString(), new Vector2(0, 20), Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 1f);
+
+            spriteBatch.DrawString(font, "State: " + CurrentState.ToString().Replace("SideScroller2D.Code.GameLogic.Player.PlayerStates.", ""), new Vector2(0, 30), Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 1f);
+#endif
             base.Draw(spriteBatch);
         }
     }

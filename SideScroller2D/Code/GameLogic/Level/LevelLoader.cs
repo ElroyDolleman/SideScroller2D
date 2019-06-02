@@ -18,7 +18,7 @@ namespace SideScroller2D.Code.GameLogic.Level
     {
         public static Level LoadLevel()
         {
-            JObject levelJson = JsonLoader.LoadJson("test_map01.json");
+            JObject levelJson = JsonLoader.LoadJson("test_map02.json");
             JObject tilesetJson = JsonLoader.LoadJson("tileset01.json");
 
             SpriteSheet tileset = AssetsManager.GetTileset("tileset01");

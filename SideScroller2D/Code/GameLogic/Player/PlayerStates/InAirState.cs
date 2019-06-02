@@ -12,8 +12,12 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 {
     class InAirState : PlayerBaseState
     {
+        //public float AirTime { get; private set; }
+
         protected float maxFallspeed = 280f;
         protected float defaultGravity = 26f;
+
+        protected bool canWallJump = true;
 
         bool movesRight { get { return player.Speed.X > 0; } }
 
@@ -53,6 +57,28 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             if (collisionResult.Vertical == CollisionResult.VerticalResults.OnBottom)
             {
                 Land();
+            }
+
+            else if (canWallJump && InputManager.JustPressed(player.Inputs.Jump))
+            {
+                foreach (Rectangle collider in colliders)
+                {
+                    // Check if the player is close enough to the wall for a walljump
+                    if (MathHelper.Distance(player.Hitbox.Right, collider.Left) <= 1)
+                        player.FacingDirection = 1;
+
+                    else if (MathHelper.Distance(player.Hitbox.Left, collider.Right) <= 1)
+                        player.FacingDirection = -1;
+
+                    else
+                        continue;
+
+                    if (player.Hitbox.Top < collider.Bottom && player.Hitbox.Bottom > collider.Top)
+                    {
+                        player.ChangeState(player.WallJumpState);
+                        return;
+                    }
+                }
             }
         }
 

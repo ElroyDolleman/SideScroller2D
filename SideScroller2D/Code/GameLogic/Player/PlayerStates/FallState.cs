@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 using SideScroller2D.Code.Collision;
+using SideScroller2D.Code.Input;
 
 namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 {
@@ -36,14 +37,9 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             if (player.CurrentState != this)
                 return;
 
-            if (collisionResult.Horizontal == CollisionResult.HorizontalResults.OnRight)
+            if ((collisionResult.Horizontal == CollisionResult.HorizontalResults.OnRight && InputManager.IsDown(player.Inputs.Right)) ||
+                (collisionResult.Horizontal == CollisionResult.HorizontalResults.OnLeft && InputManager.IsDown(player.Inputs.Left)))
             {
-                player.WallSlideState.Direction = 1;
-                player.ChangeState(player.WallSlideState);
-            }
-            else if (collisionResult.Horizontal == CollisionResult.HorizontalResults.OnLeft)
-            {
-                player.WallSlideState.Direction = -1;
                 player.ChangeState(player.WallSlideState);
             }
         }

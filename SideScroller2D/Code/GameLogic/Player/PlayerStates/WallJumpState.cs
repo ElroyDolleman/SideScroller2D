@@ -14,7 +14,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 {
     class WallJumpState : JumpState
     {
-        public int Direction = 1;
+        float inputDisabledTimer = 0;
 
         public WallJumpState(Player player)
             : base(player)
@@ -24,8 +24,25 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 
         public override void OnEnter()
         {
-            player.Speed.X = Player.RunSpeed;
-            player.Acceleration.X = 1f * (Direction * -1);
+            bool pressingDirectionTowardsWall = player.HoldsDirectionButtonTowardsFacingDirection;
+
+            // Turn Around
+            player.FacingDirection *= -1;
+
+            if (pressingDirectionTowardsWall || player.PreviousState == player.WallSlideState)
+            {
+                player.Speed.X = 132f;
+                player.Acceleration.X = 1f * player.FacingDirection;
+
+                inputDisabledTimer = 1f / 60f * 9;
+            }
+            else
+            {
+                player.Speed.X = 132f;
+                player.Acceleration.X = 0.9f * player.FacingDirection;
+
+                inputDisabledTimer = 1f / 60f * 6;
+            }
 
             base.OnEnter();
         }
@@ -34,7 +51,14 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
         {
             ApplyGravity();
 
-            player.UpdateHorizontalMovementControls(Player.RunSpeed, 0.039f);
+            // Enable wall jump on first frame
+            if (!canWallJump)
+                canWallJump = true;
+
+            if (inputDisabledTimer <= 0)
+                player.UpdateHorizontalMovementControls(Player.RunSpeed, 0.07f);
+            else
+                inputDisabledTimer -= Main.DeltaTime;
 
             if (player.Speed.Y > 0)
                 player.ChangeState(player.FallState);

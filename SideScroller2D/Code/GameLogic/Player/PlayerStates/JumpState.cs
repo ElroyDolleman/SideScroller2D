@@ -29,11 +29,18 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 
             player.Speed.Y = -jumpPower;
 
+            // Cannot wall jump on first frame
+            canWallJump = false;
+
             AudioManager.PlaySound(GameSounds.PlayerJump);
         }
 
         public override void Update(GameTime gameTime)
         {
+            // Enable wall jump on first frame
+            if (!canWallJump)
+                canWallJump = true;
+
             ApplyGravity();
 
             player.UpdateHorizontalMovementControls();
@@ -56,6 +63,8 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             {
                 HeadBonk();
             }
+
+            base.OnCollision(collisionResult, colliders);
         }
 
         protected virtual void HeadBonk()

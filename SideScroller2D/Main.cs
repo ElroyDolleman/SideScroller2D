@@ -63,6 +63,8 @@ namespace SideScroller2D.Code
 
             AssetsManager.LoadTileset(Content, "tileset01.json", "tileset01");
 
+            AssetsManager.LoadFont(Content, "default_pixel_font");
+
             AudioManager.LoadAllSounds(Content);
 
             stateManager.OnContentLoaded();
@@ -75,27 +77,31 @@ namespace SideScroller2D.Code
 
 #if DEBUG
         bool frameByFrameAdvancement = false;
+        private static KeyboardState currentKeyboardState;
+        private static KeyboardState previousKeyboardState;
 #endif
 
         protected override void Update(GameTime gameTime)
         {
-            DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            InputManager.UpdateState();
-
 #if DEBUG
-            if (InputManager.CurrentKeyboardState.IsKeyDown(Keys.P) && InputManager.PreviousKeyboardState.IsKeyUp(Keys.P))
+            previousKeyboardState = currentKeyboardState;
+            currentKeyboardState = Keyboard.GetState();
+
+            if (currentKeyboardState.IsKeyDown(Keys.F) && previousKeyboardState.IsKeyUp(Keys.F))
             {
                 frameByFrameAdvancement = !frameByFrameAdvancement;
             }
 
-            // Frame by frame advancement
-            if (frameByFrameAdvancement && (InputManager.CurrentKeyboardState.IsKeyUp(Keys.F) || InputManager.PreviousKeyboardState.IsKeyDown(Keys.F)))
+            if (frameByFrameAdvancement && !(currentKeyboardState.IsKeyDown(Keys.N) && previousKeyboardState.IsKeyUp(Keys.N)) )
             {
                 base.Update(gameTime);
                 return;
             }
 #endif
+
+            DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            InputManager.UpdateState();
 
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             //    Exit();
