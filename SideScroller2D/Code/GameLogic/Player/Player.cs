@@ -44,8 +44,6 @@ namespace SideScroller2D.Code.GameLogic.Player
         {
             get
             {
-                if (Speed.X * Acceleration.X < 0) return -1;
-                else if (Speed.X * Acceleration.X > 0) return 1;
                 return sprite.SpriteEffect == SpriteEffects.FlipHorizontally ? -1 : 1;
             }
             set
@@ -58,6 +56,18 @@ namespace SideScroller2D.Code.GameLogic.Player
                 else
                     Console.WriteLine("Warning: FacingDirection can only be 1 or -1");
 #endif
+            }
+        }
+
+        public int SpeedDirection
+        {
+            get
+            {
+                if (Speed.X * Acceleration.X > 0)
+                    return 1;
+                else if (Speed.X * Acceleration.X < 0)
+                    return -1;
+                return 0;
             }
         }
 
@@ -131,10 +141,8 @@ namespace SideScroller2D.Code.GameLogic.Player
 
             currentAnimation.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
 
-            if (Speed.X * Acceleration.X < 0)
-                FacingDirection = -1;
-            else if (Speed.X * Acceleration.X > 0)
-                FacingDirection = 1;
+            if (SpeedDirection != 0)
+                FacingDirection = SpeedDirection;
         }
 
         public void UpdateHorizontalMovementControls()
@@ -173,7 +181,7 @@ namespace SideScroller2D.Code.GameLogic.Player
 
         public void UpdateInBounds()
         {
-            if (position.X > Main.TargetWidth - hitbox.Width) 
+            if (position.X > Main.TargetWidth - hitbox.Width)
                 position = new Vector2(Main.TargetWidth - hitbox.Width, Position.Y);
             else if (position.X < 0)
                 position = new Vector2(0, Position.Y);
@@ -193,8 +201,9 @@ namespace SideScroller2D.Code.GameLogic.Player
             spriteBatch.DrawString(font, "Accel: " + Acceleration.ToString(), new Vector2(0, 10), Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 1f);
             spriteBatch.DrawString(font, "Total: " + (Speed * Acceleration).ToString(), new Vector2(0, 20), Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 1f);
 
-            spriteBatch.DrawString(font, "State: " + CurrentState.ToString().Replace("SideScroller2D.Code.GameLogic.Player.PlayerStates.", ""), new Vector2(0, 30), Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(font, "State: " + CurrentState.ToString().Replace("SideScroller2D.Code.GameLogic.Player.PlayerStates.", "").Replace("State", ""), new Vector2(0, 30), Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 1f);
 #endif
+
             base.Draw(spriteBatch);
         }
     }

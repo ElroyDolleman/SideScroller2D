@@ -29,6 +29,8 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             // Turn Around
             player.FacingDirection *= -1;
 
+            Console.WriteLine("OnEnter FacingDirection {0}", player.FacingDirection);
+
             if (pressingDirectionTowardsWall || player.PreviousState == player.WallSlideState)
             {
                 player.Speed.X = 132f;
