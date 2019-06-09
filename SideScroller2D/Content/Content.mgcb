@@ -35,13 +35,7 @@
 #begin PixelFJVerdana12pt.ttf
 /copy:PixelFJVerdana12pt.ttf
 
-#begin player_jump.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:player_jump.wav
-
-#begin smoke_effect.png
+#begin player_dust_particles.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -51,7 +45,13 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:smoke_effect.png
+/build:player_dust_particles.png
+
+#begin player_jump.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:player_jump.wav
 
 #begin test_map01.json
 /copy:test_map01.json

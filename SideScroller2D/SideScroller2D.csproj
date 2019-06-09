@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Code\GameLogic\Player\PlayerStates\WallJumpState.cs" />
     <Compile Include="Code\Particles\DustEffect.cs" />
+    <Compile Include="Code\Particles\DustManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -16,31 +16,36 @@ namespace SideScroller2D.Code.Particles
     class DustEffect : Entity
     {
         SpriteSheet spriteSheet;
-        SpriteSheetAnimation animation;
 
-        public DustEffect()
+        public SpriteSheetAnimation Animation { get; private set; }
+
+        public DustEffect(Texture2D texture, Vector2 position, int startFrame, int endFrame, Vector2 origin, int frameWidth = 16, int frameHeight = 16)
         {
-            sprite = new Sprite(AssetsManager.GetTexture("smoke_effect"));
-            sprite.Origin = new Vector2(8, 16);
+            sprite = new Sprite(texture);
+            sprite.Origin = origin;
 
-            spriteSheet = new SpriteSheet(sprite.Texture, 16, 16);
-            animation = new SpriteSheetAnimation(sprite, spriteSheet, 0, 4, 80.0f);
+            spriteSheet = new SpriteSheet(sprite.Texture, frameWidth, frameHeight);
+            Animation = new SpriteSheetAnimation(sprite, spriteSheet, startFrame, endFrame, 70.0f);
 
-            animation.Loop = false;
+            spriteSheet.CropSpriteByFrame(sprite, startFrame);
+
+            Animation.Loop = false;
+
+            this.position = position;
         }
 
         public override void Update(GameTime gameTime)
         {
-            animation.Update(Main.DeltaTimeMiliseconds);
+            Animation.Update(Main.DeltaTimeMiliseconds);
 
-            if (animation.Done && sprite.Visible)
+            if (Animation.Done && sprite.Visible)
                 sprite.Visible = false;
         }
 
         public void Reset()
         {
             sprite.Visible = true;
-            animation.ResetAnimation();
+            Animation.ResetAnimation();
         }
 
         public override void Draw(SpriteBatch spriteBatch)

@@ -31,9 +31,6 @@ namespace SideScroller2D.Code.GameLogic.Player
         public const float RunSpeed = 128f;
         public const float RunAcceleration = 0.09f;
 
-        public PlayerBaseState CurrentState { get; protected set; }
-        public PlayerBaseState PreviousState { get; protected set; }
-
         public bool HoldsDirectionButtonTowardsFacingDirection { get { return (InputManager.IsDown(Inputs.Right) && FacingDirection == 1) || (InputManager.IsDown(Inputs.Left) && FacingDirection == -1); } }
 
         /// <summary>
@@ -71,6 +68,9 @@ namespace SideScroller2D.Code.GameLogic.Player
             }
         }
 
+        public PlayerBaseState CurrentState { get; protected set; }
+        public PlayerBaseState PreviousState { get; protected set; }
+
         public readonly PlayerIndex PlayerIndex;
         public readonly PlayerInputs Inputs;
 
@@ -87,8 +87,6 @@ namespace SideScroller2D.Code.GameLogic.Player
         Dictionary<Animations, SpriteSheetAnimation> animations;
         SpriteSheetAnimation currentAnimation;
 
-        DustEffect landDustEffect;
-
         public Player(PlayerIndex playerIndex)
         {
             this.PlayerIndex = playerIndex;
@@ -99,8 +97,6 @@ namespace SideScroller2D.Code.GameLogic.Player
 
             sprite.Origin = new Vector2(3, 2);
             hitbox = new Rectangle(0, 0, 10, 14);
-
-            landDustEffect = new DustEffect();
 
             animations = new Dictionary<Animations, SpriteSheetAnimation>();
             animations.Add(Animations.Idle, new SpriteSheetAnimation(sprite, characterSheet, new int[] { 0 }));
@@ -147,8 +143,6 @@ namespace SideScroller2D.Code.GameLogic.Player
 
             if (SpeedDirection != 0)
                 FacingDirection = SpeedDirection;
-
-            landDustEffect.Update(gameTime);
         }
 
         public void UpdateHorizontalMovementControls()
@@ -193,12 +187,6 @@ namespace SideScroller2D.Code.GameLogic.Player
                 position = new Vector2(0, Position.Y);
         }
 
-        public void OnLanding()
-        {
-            landDustEffect.Reset();
-            landDustEffect.Position = new Vector2(Hitbox.Center.X, Hitbox.Bottom);
-        }
-
         public override void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
         {
             CurrentState.OnCollision(collisionResult, colliders);
@@ -218,10 +206,7 @@ namespace SideScroller2D.Code.GameLogic.Player
             spriteBatch.DrawString(font, "Position: " + Position.ToString(), new Vector2(0, 40), Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 1f);
             spriteBatch.DrawString(font, "Hitbox: " + Hitbox.ToString(), new Vector2(0, 50), Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 1f);
 #endif
-
             base.Draw(spriteBatch);
-
-            landDustEffect.Draw(spriteBatch);
         }
     }
 }

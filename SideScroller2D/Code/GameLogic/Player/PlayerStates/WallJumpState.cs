@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 
 using SideScroller2D.Code.Input;
 using SideScroller2D.Code.Audio;
+using SideScroller2D.Code.Particles;
 using SideScroller2D.Code.Collision;
 
 namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
@@ -25,6 +26,8 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
         public override void OnEnter()
         {
             bool pressingDirectionTowardsWall = player.HoldsDirectionButtonTowardsFacingDirection;
+
+            DustManager.AddWallJumpDustEffect(new Vector2(player.FacingDirection == 1 ? player.Hitbox.Right : player.Hitbox.Left, player.Hitbox.Center.Y), player.FacingDirection);
 
             // Turn Around
             player.FacingDirection *= -1;

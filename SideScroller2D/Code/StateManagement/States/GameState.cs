@@ -24,7 +24,6 @@ namespace SideScroller2D.Code.StateManagement.States
         public GameState(StateManager stateManager)
             : base(stateManager)
         {
-            
         }
 
         public override void OnContentLoaded()
@@ -38,9 +37,6 @@ namespace SideScroller2D.Code.StateManagement.States
         public override void Update(GameTime gameTime)
         {
             player.Update(gameTime);
-
-            //if (player.Position == player.NextPostion)
-            //    return;
 
             var from = currentLevel.Grid.ToGridLocation(player.NextHitbox.Location.ToVector2() - Vector2.One * 2);
             var to = currentLevel.Grid.ToGridLocation((player.NextHitbox.Location + player.NextHitbox.Size).ToVector2() + Vector2.One * 2);

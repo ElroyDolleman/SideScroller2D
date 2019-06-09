@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
+
 using SideScroller2D.Code.Collision;
+using SideScroller2D.Code.Particles;
 using SideScroller2D.Code.Input;
 
 namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
@@ -84,6 +86,9 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 
         protected void Land()
         {
+            if (player.Speed.Y == maxFallspeed)
+                DustManager.AddOnLandingDustEffect(new Vector2(player.Hitbox.Center.X, player.Hitbox.Bottom));
+
             player.Speed.Y = 0;
 
             if (player.Speed.X == 0)
@@ -91,8 +96,6 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 
             else
                 player.ChangeState(player.RunState);
-
-            player.OnLanding();
         }
     }
 }

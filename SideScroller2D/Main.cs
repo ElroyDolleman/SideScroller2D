@@ -61,7 +61,7 @@ namespace SideScroller2D.Code
             JsonLoader.SetRootDirectory(Content.RootDirectory);
 
             AssetsManager.LoadTexture2D(Content, "character_nina");
-            AssetsManager.LoadTexture2D(Content, "smoke_effect");
+            AssetsManager.LoadTexture2D(Content, "player_dust_particles");
 
             AssetsManager.LoadTileset(Content, "tileset01.json", "tileset01");
 

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using SideScroller2D.Code.Particles;
 using SideScroller2D.Code.Graphics;
 
 namespace SideScroller2D.Code.StateManagement
@@ -58,6 +59,8 @@ namespace SideScroller2D.Code.StateManagement
         public void Update(GameTime gameTime)
         {
             states[currentStateID].Update(gameTime);
+
+            DustManager.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -65,6 +68,8 @@ namespace SideScroller2D.Code.StateManagement
             spriteBatch.Begin(spriteBatchSettings);
 
             states[currentStateID].Draw(spriteBatch);
+
+            DustManager.Draw(spriteBatch);
 
             spriteBatch.End();
         }
