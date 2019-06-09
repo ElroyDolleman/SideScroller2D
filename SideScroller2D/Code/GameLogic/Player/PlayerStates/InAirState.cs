@@ -91,6 +91,8 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 
             else
                 player.ChangeState(player.RunState);
+
+            player.OnLanding();
         }
     }
 }

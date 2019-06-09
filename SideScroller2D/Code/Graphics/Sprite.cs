@@ -26,6 +26,8 @@ namespace SideScroller2D.Code.Graphics
 
         public float Depth { get => depth; set => depth = value; }
 
+        public bool Visible { get; set; }
+
         public Texture2D Texture;
 
 
@@ -42,12 +44,14 @@ namespace SideScroller2D.Code.Graphics
 
         public Sprite(Texture2D texture)
         {
+            Visible = true;
             this.Texture = texture;
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position)
         {
-            spriteBatch.Draw(Texture, position, crop, color, rotation, origin, scale, SpriteEffect, depth);
+            if (Visible)
+                spriteBatch.Draw(Texture, position, crop, color, rotation, origin, scale, SpriteEffect, depth);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace SideScroller2D.Code
 {
     abstract class Entity
     {
-        public Vector2 Position { get { return position; } }
+        public Vector2 Position { get { return position; } set { position = value; } }
 
         protected Sprite sprite;
         protected Vector2 position;
@@ -21,11 +21,6 @@ namespace SideScroller2D.Code
         protected Entity()
         {
 
-        }
-
-        public virtual void ChangePosition(Vector2 position)
-        {
-            this.position = position;
         }
 
         public virtual void ChangePositionX(float newX)

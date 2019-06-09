@@ -30,7 +30,7 @@ namespace SideScroller2D.Code.StateManagement.States
         public override void OnContentLoaded()
         {
             player = new Player(PlayerIndex.One);
-            player.ChangePosition(new Vector2(200 - 8, 300 - 48));
+            player.Position = new Vector2(200 - 8, 300 - 48);
 
             currentLevel = LevelLoader.LoadLevel();
         }

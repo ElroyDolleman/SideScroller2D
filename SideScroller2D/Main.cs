@@ -17,6 +17,7 @@ namespace SideScroller2D.Code
         public const int TargetHeight = 300;
 
         public static float DeltaTime { get; private set; }
+        public static float DeltaTimeMiliseconds { get; private set; }
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -60,6 +61,7 @@ namespace SideScroller2D.Code
             JsonLoader.SetRootDirectory(Content.RootDirectory);
 
             AssetsManager.LoadTexture2D(Content, "character_nina");
+            AssetsManager.LoadTexture2D(Content, "smoke_effect");
 
             AssetsManager.LoadTileset(Content, "tileset01.json", "tileset01");
 
@@ -100,6 +102,7 @@ namespace SideScroller2D.Code
 #endif
 
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            DeltaTimeMiliseconds = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
             InputManager.UpdateState();
 

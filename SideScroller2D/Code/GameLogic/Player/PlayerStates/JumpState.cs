@@ -86,7 +86,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
                     HeadBonk();
                 else
                 {
-                    player.ChangePosition(new Vector2(newXPos, player.Position.Y - 1));
+                    player.Position = new Vector2(newXPos, player.Position.Y - 1);
                 }
             }
 

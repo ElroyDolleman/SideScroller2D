@@ -18,16 +18,21 @@ namespace SideScroller2D.Code.Graphics
             set { interval = value * 1000f / frames.Length; }
         }
 
+        public int CurrentFrame { get { return frames[currentFrameIndex]; } }
+
         public SpriteSheet SpriteSheet;
         public Sprite Sprite;
+
         public bool Paused = false;
+        public bool Loop = true;
+        public bool Done = false;
 
         private float interval;
         private float timer = 0;
         private int[] frames;
         private int currentFrameIndex = 0;
 
-        public SpriteSheetAnimation(Sprite sprite, SpriteSheet spriteSheet, int[] frames, float interval = 200.0f)
+        public SpriteSheetAnimation(Sprite sprite, SpriteSheet spriteSheet, int[] frames, float interval = 160.0f)
         {
             this.SpriteSheet = spriteSheet;
             this.Sprite = sprite;
@@ -35,7 +40,7 @@ namespace SideScroller2D.Code.Graphics
             this.interval = interval;
         }
 
-        public SpriteSheetAnimation(Sprite sprite, SpriteSheet spriteSheet, int startFrame = 0, int endFrame = 0, float interval = 200.0f)
+        public SpriteSheetAnimation(Sprite sprite, SpriteSheet spriteSheet, int startFrame = 0, int endFrame = 0, float interval = 160.0f)
         {
             this.SpriteSheet = spriteSheet;
             this.Sprite = sprite;
@@ -50,13 +55,20 @@ namespace SideScroller2D.Code.Graphics
 
         public void Update(float elapsedMilliseconds)
         {
-            if (Paused || frames.Length <= 1)
+            if (Paused || Done || frames.Length <= 1)
                 return;
 
             timer += elapsedMilliseconds;
 
             if (timer < interval)
                 return;
+
+            if (!Loop && currentFrameIndex == frames.Length - 1)
+            {
+                timer = interval;
+                Done = true;
+                return;
+            }
 
             timer -= interval;
             currentFrameIndex++;
@@ -72,6 +84,7 @@ namespace SideScroller2D.Code.Graphics
         /// </summary>
         public void ResetAnimation()
         {
+            Done = false;
             timer = 0;
             currentFrameIndex = 0;
             SpriteSheet.CropSpriteByFrame(Sprite, frames[0]);
