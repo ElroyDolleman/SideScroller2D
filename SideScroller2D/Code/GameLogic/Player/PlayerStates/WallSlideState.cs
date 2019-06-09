@@ -56,7 +56,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             {
                 foreach (Tile tile in tiles)
                 {
-                    if (!tile.Solid)
+                    if (tile == null || !tile.Solid)
                         continue;
 
                     int side = player.FacingDirection == 1 ? player.Hitbox.Right : player.Hitbox.Left;

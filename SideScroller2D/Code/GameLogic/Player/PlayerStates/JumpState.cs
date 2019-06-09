@@ -68,7 +68,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 
                 foreach (Tile tile in tiles)
                 {
-                    if (!tile.Solid)
+                    if (tile == null || !tile.Solid)
                         continue;
 
                     if (player.Hitbox.Top == tile.Hitbox.Bottom)

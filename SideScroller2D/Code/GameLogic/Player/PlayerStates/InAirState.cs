@@ -66,7 +66,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             {
                 foreach (Tile tile in tiles)
                 {
-                    if (!tile.Solid)
+                    if (tile == null || !tile.Solid)
                         continue;
 
                     // Check if the player is close enough to the wall for a walljump
