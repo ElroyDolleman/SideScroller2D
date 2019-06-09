@@ -40,7 +40,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 
             foreach (Tile tile in tiles)
             {
-                if (tile == null || !tile.Solid)
+                if (tile == null || !tile.CanStandOn)
                     continue;
 
                 // Check if a collider is directly underneath the player, if so stop this function to prevent going in the FallState

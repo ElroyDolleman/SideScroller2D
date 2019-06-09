@@ -19,6 +19,7 @@ namespace SideScroller2D.Code.GameLogic.Level
     class Tile
     {
         public bool Solid { get { return TileType == TileTypes.Ground || TileType == TileTypes.Breakable; } }
+        public bool CanStandOn { get { return Solid || TileType == TileTypes.SemiSolid; } }
 
         public readonly Rectangle Hitbox;
         public readonly Vector2 Position;
