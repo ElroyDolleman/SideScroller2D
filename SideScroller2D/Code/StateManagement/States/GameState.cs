@@ -39,12 +39,14 @@ namespace SideScroller2D.Code.StateManagement.States
             player.Update(gameTime);
 
             var from = currentLevel.Grid.ToGridLocation(player.NextHitbox.Location.ToVector2() - Vector2.One * 2);
-            var to = currentLevel.Grid.ToGridLocation((player.NextHitbox.Location + player.NextHitbox.Size).ToVector2() + Vector2.One * 2);
+            var to = new Point(from.X + 1, from.Y + 1);
 
             var colliders = currentLevel.GetColliders(from, to);
             var result = CollisionManager.MoveEntity(player, colliders);
 
-            player.OnCollision(result, colliders);
+            var overlappingTiles = currentLevel.GetTiles(from, to);
+
+            player.OnCollision(result, overlappingTiles);
             player.UpdateInBounds();
         }
 

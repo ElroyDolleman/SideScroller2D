@@ -64,6 +64,17 @@ namespace SideScroller2D.Code.GameLogic.Level
             return colliders;
         }
 
+        public List<Tile> GetTiles(Point from, Point to)
+        {
+            var tiles = new List<Tile>();
+
+            for (int y = from.Y; y <= to.Y; y++)
+                for (int x = from.X; x <= to.X; x++)
+                    tiles.Add(GetTile(x, y));
+
+            return tiles;
+        }
+
         public Tile GetTile(int x, int y)
         {
             int index = Grid.CellNumber(x, y, Size.X);

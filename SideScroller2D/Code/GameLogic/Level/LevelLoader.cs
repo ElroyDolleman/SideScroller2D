@@ -53,7 +53,7 @@ namespace SideScroller2D.Code.GameLogic.Level
                     var position = new Vector2(x * tilewidth, startPosY + y * tileheight);
 
                     Sprite overlaySprite = null;
-                    bool solid = false;
+                    TileTypes tileType = TileTypes.Empty;
 
                     if (overlayFrame >= 0)
                     {
@@ -64,14 +64,23 @@ namespace SideScroller2D.Code.GameLogic.Level
                             if (id != overlayFrame)
                                 continue;
 
-                            solid = tilesetJson["tiles"][i]["properties"][0]["value"].Value<bool>();
+                            var type = tilesetJson["tiles"][i]["type"].Value<string>();
+
+                            if (type == "ground")
+                                tileType = TileTypes.Ground;
+
+                            else if (type == "semisolid")
+                                tileType = TileTypes.SemiSolid;
+
+                            else if (type == "breakable")
+                                tileType = TileTypes.Breakable;
                         }
 
                         overlaySprite = new Sprite(tileset.Texture);
                         tileset.CropSpriteByFrame(overlaySprite, overlayFrame);
                     }
 
-                    var tile = new Tile(position, null, overlaySprite, null, solid);
+                    var tile = new Tile(position, null, overlaySprite, null, tileType);
 
                     tiles.Add(tile);
                 }

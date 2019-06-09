@@ -1,5 +1,5 @@
 { "columns":8,
- "image":"tileset01.png",
+ "image":"..\/PixelArt\/Aseprite\/CharacterTests\/tileset01.png",
  "imageheight":128,
  "imagewidth":128,
  "margin":0,
@@ -11,133 +11,110 @@
  "tiles":[
         {
          "id":0,
-         "properties":[
-                {
-                 "name":"solid",
-                 "type":"bool",
-                 "value":true
-                }],
          "type":"ground"
         }, 
         {
          "id":1,
-         "properties":[
-                {
-                 "name":"solid",
-                 "type":"bool",
-                 "value":true
-                }],
          "type":"ground"
         }, 
         {
          "id":2,
-         "properties":[
-                {
-                 "name":"solid",
-                 "type":"bool",
-                 "value":true
-                }],
          "type":"ground"
         }, 
         {
          "id":3,
-         "properties":[
-                {
-                 "name":"solid",
-                 "type":"bool",
-                 "value":true
-                }],
          "type":"ground"
         }, 
         {
          "id":4,
-         "properties":[
-                {
-                 "name":"solid",
-                 "type":"bool",
-                 "value":true
-                }],
          "type":"ground"
         }, 
         {
+         "id":5,
+         "type":"semisolid"
+        }, 
+        {
+         "id":6,
+         "type":"semisolid"
+        }, 
+        {
+         "id":7,
+         "type":"semisolid"
+        }, 
+        {
          "id":8,
-         "properties":[
-                {
-                 "name":"solid",
-                 "type":"bool",
-                 "value":true
-                }],
          "type":"ground"
         }, 
         {
          "id":9,
-         "properties":[
-                {
-                 "name":"solid",
-                 "type":"bool",
-                 "value":true
-                }],
          "type":"ground"
         }, 
         {
          "id":10,
-         "properties":[
-                {
-                 "name":"solid",
-                 "type":"bool",
-                 "value":true
-                }],
          "type":"ground"
         }, 
         {
          "id":11,
-         "properties":[
-                {
-                 "name":"solid",
-                 "type":"bool",
-                 "value":true
-                }],
          "type":"ground"
         }, 
         {
          "id":12,
-         "properties":[
-                {
-                 "name":"solid",
-                 "type":"bool",
-                 "value":true
-                }],
+         "type":"ground"
+        }, 
+        {
+         "id":13,
+         "type":"semisolid"
+        }, 
+        {
+         "id":14,
+         "type":"ground"
+        }, 
+        {
+         "id":15,
          "type":"ground"
         }, 
         {
          "id":16,
-         "properties":[
-                {
-                 "name":"solid",
-                 "type":"bool",
-                 "value":true
-                }],
          "type":"ground"
         }, 
         {
          "id":17,
-         "properties":[
-                {
-                 "name":"solid",
-                 "type":"bool",
-                 "value":true
-                }],
+         "objectgroup":
+            {
+             "draworder":"index",
+             "name":"",
+             "objects":[
+                    {
+                     "height":0,
+                     "id":1,
+                     "name":"",
+                     "point":true,
+                     "rotation":0,
+                     "type":"",
+                     "visible":true,
+                     "width":0,
+                     "x":-25,
+                     "y":-407
+                    }],
+             "opacity":1,
+             "type":"objectgroup",
+             "visible":true,
+             "x":0,
+             "y":0
+            },
          "type":"ground"
         }, 
         {
          "id":18,
-         "properties":[
-                {
-                 "name":"solid",
-                 "type":"bool",
-                 "value":true
-                }],
          "type":"ground"
+        }, 
+        {
+         "id":19,
+         "type":"ground"
+        }, 
+        {
+         "id":20,
+         "type":"breakable"
         }],
  "tilewidth":16,
  "type":"tileset",

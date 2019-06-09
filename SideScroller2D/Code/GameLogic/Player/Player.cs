@@ -7,9 +7,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using SideScroller2D.Code.GameLogic.Player.PlayerStates;
+using SideScroller2D.Code.GameLogic.Level;
 using SideScroller2D.Code.Utilities;
 using SideScroller2D.Code.Collision;
-using SideScroller2D.Code.Particles;
 using SideScroller2D.Code.Graphics;
 using SideScroller2D.Code.Input;
 
@@ -183,13 +183,14 @@ namespace SideScroller2D.Code.GameLogic.Player
         {
             if (position.X > Main.TargetWidth - hitbox.Width)
                 position = new Vector2(Main.TargetWidth - hitbox.Width, Position.Y);
+
             else if (position.X < 0)
                 position = new Vector2(0, Position.Y);
         }
 
-        public override void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
+        public void OnCollision(CollisionResult collisionResult, List<Tile> tiles)
         {
-            CurrentState.OnCollision(collisionResult, colliders);
+            CurrentState.OnCollision(collisionResult, tiles);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

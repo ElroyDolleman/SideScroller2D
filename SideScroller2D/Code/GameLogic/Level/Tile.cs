@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,12 +8,22 @@ using SideScroller2D.Code.Graphics;
 
 namespace SideScroller2D.Code.GameLogic.Level
 {
+    public enum TileTypes
+    {
+        Empty,
+        Ground,
+        SemiSolid,
+        Breakable
+    }
+
     class Tile
     {
-        public readonly Rectangle Hitbox;
+        public bool Solid { get { return TileType == TileTypes.Ground || TileType == TileTypes.Breakable; } }
 
+        public readonly Rectangle Hitbox;
         public readonly Vector2 Position;
-        public readonly bool Solid;
+
+        public TileTypes TileType { get; private set; }
 
         private Sprite background;
         private Sprite overlay;
@@ -22,7 +33,7 @@ namespace SideScroller2D.Code.GameLogic.Level
         private bool hasOverlay;
         private bool hasForeground;
 
-        public Tile(Vector2 position, Sprite background = null, Sprite overlay = null, Sprite foreground = null, bool solid = false)
+        public Tile(Vector2 position, Sprite background = null, Sprite overlay = null, Sprite foreground = null, TileTypes tileType = TileTypes.Empty)
         {
             hasBackground = background != null;
             hasOverlay = overlay != null;
@@ -36,9 +47,31 @@ namespace SideScroller2D.Code.GameLogic.Level
                 this.foreground = foreground;
 
             this.Position = position;
-            this.Solid = solid;
+            this.TileType = tileType;
 
             Hitbox = new Rectangle(position.ToPoint(), new Point(16, 16));
+        }
+
+        public void Break()
+        {
+            TileType = TileTypes.Ground;
+
+            hasOverlay = false;
+            overlay = null;
+
+            // TODO: Build custom timer system so it will work with frame by frame advancement
+            var timer = new Timer(1000f / 60f * 8f);
+
+            timer.Elapsed += MakeEmpty;
+            timer.AutoReset = false;
+            timer.Enabled = true;
+
+            // TODO: Spawn break particles
+        }
+
+        private void MakeEmpty(Object source, ElapsedEventArgs e)
+        {
+            TileType = TileTypes.Empty;
         }
 
         public void DrawBackground(SpriteBatch spriteBatch)

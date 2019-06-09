@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 
+using SideScroller2D.Code.GameLogic.Level;
 using SideScroller2D.Code.Collision;
 using SideScroller2D.Code.Input;
 
@@ -30,9 +31,9 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             player.UpdateHorizontalMovementControls();
         }
 
-        public override void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
+        public override void OnCollision(CollisionResult collisionResult, List<Tile> tiles)
         {
-            base.OnCollision(collisionResult, colliders);
+            base.OnCollision(collisionResult, tiles);
 
             if (player.CurrentState != this)
                 return;

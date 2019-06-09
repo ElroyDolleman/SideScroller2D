@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using SideScroller2D.Code.GameLogic.Player;
+using SideScroller2D.Code.GameLogic.Level;
 using SideScroller2D.Code.Collision;
 
 namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
@@ -24,7 +25,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
         virtual public void OnEnter() { }
         virtual public void Update(GameTime gameTime) { }
 
-        virtual public void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
+        virtual public void OnCollision(CollisionResult collisionResult, List<Tile> tiles)
         {
             if (collisionResult.Horizontal == CollisionResult.HorizontalResults.OnRight || collisionResult.Horizontal == CollisionResult.HorizontalResults.OnLeft)
             {

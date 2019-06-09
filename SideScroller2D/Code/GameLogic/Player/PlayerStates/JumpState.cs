@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 
+using SideScroller2D.Code.GameLogic.Level;
 using SideScroller2D.Code.Input;
 using SideScroller2D.Code.Audio;
 using SideScroller2D.Code.Collision;
@@ -57,45 +58,66 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             return base.GetGravity() * 1.4f;
         }
 
-        public override void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
+        public override void OnCollision(CollisionResult collisionResult, List<Tile> tiles)
         {
             if (collisionResult.Vertical == CollisionResult.VerticalResults.OnTop)
             {
-                bool doHeadBonk = true;
-                int count = 0;
+                List<Tile> headBonkTiles = new List<Tile>();
+                bool doHeadBonk = false;
                 float newXPos = player.Position.X;
 
-                foreach (Rectangle collider in colliders)
+                foreach (Tile tile in tiles)
                 {
-                    if (player.Hitbox.Top == collider.Bottom)
-                        count++;
+                    if (!tile.Solid)
+                        continue;
 
-                    if (count == 1 && (MathHelper.Distance(player.Hitbox.Left, collider.Left) > 4 && MathHelper.Distance(player.Hitbox.Right, collider.Right) > 4))
+                    if (player.Hitbox.Top == tile.Hitbox.Bottom)
+                    {
+                        doHeadBonk = true;
+                        headBonkTiles.Add(tile);
+                    }
+
+                    // Move along side wall
+                    if (headBonkTiles.Count == 1 && (MathHelper.Distance(player.Hitbox.Left, tile.Hitbox.Left) > 4 && MathHelper.Distance(player.Hitbox.Right, tile.Hitbox.Right) > 4))
                     {
                         doHeadBonk = false;
 
-                        if (player.Hitbox.Left < collider.Left)
-                            newXPos = collider.Left - player.Hitbox.Width;
+                        if (player.Hitbox.Left < tile.Hitbox.Left)
+                            newXPos = tile.Hitbox.Left - player.Hitbox.Width;
 
-                        else if (player.Hitbox.Right > collider.Right)
-                            newXPos = collider.Right;
+                        else if (player.Hitbox.Right > tile.Hitbox.Right)
+                            newXPos = tile.Hitbox.Right;
                     }
                 }
 
-                if (doHeadBonk || count > 1)
-                    HeadBonk();
-                else
+                if (doHeadBonk)
+                    HeadBonk(headBonkTiles);
+
+                else if (newXPos != player.Position.X)
                 {
                     player.Position = new Vector2(newXPos, player.Position.Y - 1);
+
+                    // TODO: Prevent duplicate code
+                    foreach (Tile tile in headBonkTiles)
+                    {
+                        if (tile.TileType == TileTypes.Breakable)
+                            tile.Break();
+                    }
                 }
             }
 
-            base.OnCollision(collisionResult, colliders);
+            base.OnCollision(collisionResult, tiles);
         }
 
-        protected virtual void HeadBonk()
+        protected virtual void HeadBonk(List<Tile> headBonkTiles)
         {
             player.Speed.Y = 0;
+
+            foreach (Tile tile in headBonkTiles)
+            {
+                if (tile.TileType == TileTypes.Breakable)
+                    tile.Break();
+            }
         }
     }
 }

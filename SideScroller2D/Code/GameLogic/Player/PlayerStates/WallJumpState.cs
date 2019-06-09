@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 
+using SideScroller2D.Code.GameLogic.Level;
 using SideScroller2D.Code.Input;
 using SideScroller2D.Code.Audio;
 using SideScroller2D.Code.Particles;
@@ -67,9 +68,9 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
                 player.ChangeState(player.FallState);
         }
 
-        public override void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
+        public override void OnCollision(CollisionResult collisionResult, List<Tile> tiles)
         {
-            base.OnCollision(collisionResult, colliders);
+            base.OnCollision(collisionResult, tiles);
         }
     }
 }

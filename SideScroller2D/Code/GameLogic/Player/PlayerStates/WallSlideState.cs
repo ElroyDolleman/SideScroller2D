@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using SideScroller2D.Code.GameLogic.Level;
 using SideScroller2D.Code.Collision;
 using SideScroller2D.Code.Particles;
 using SideScroller2D.Code.Utilities;
@@ -42,9 +43,9 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             dustSpawnTimer += Main.DeltaTime;
         }
 
-        public override void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
+        public override void OnCollision(CollisionResult collisionResult, List<Tile> tiles)
         {
-            base.OnCollision(collisionResult, colliders);
+            base.OnCollision(collisionResult, tiles);
 
             if (player.CurrentState != this)
                 return;
@@ -53,13 +54,16 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 
             if (hold)
             {
-                foreach (Rectangle collider in colliders)
+                foreach (Tile tile in tiles)
                 {
+                    if (!tile.Solid)
+                        continue;
+
                     int side = player.FacingDirection == 1 ? player.Hitbox.Right : player.Hitbox.Left;
-                    int colliderSide = player.FacingDirection == 1 ? collider.Left : collider.Right;
+                    int colliderSide = player.FacingDirection == 1 ? tile.Hitbox.Left : tile.Hitbox.Right;
 
                     // As long as there is a wall next to the player prevent changing state
-                    if (side == colliderSide && player.Hitbox.Top < collider.Bottom && player.Hitbox.Bottom > collider.Top)
+                    if (side == colliderSide && player.Hitbox.Top < tile.Hitbox.Bottom && player.Hitbox.Bottom > tile.Hitbox.Top)
                     {
                         if (dustSpawnTimer < dustSpawnInterval)
                             return;

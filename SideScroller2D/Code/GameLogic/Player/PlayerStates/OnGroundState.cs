@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
+
+using SideScroller2D.Code.GameLogic.Level;
 using SideScroller2D.Code.Collision;
 using SideScroller2D.Code.Input;
 
@@ -32,14 +34,17 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             }
         }
 
-        public override void OnCollision(CollisionResult collisionResult, List<Rectangle> colliders)
+        public override void OnCollision(CollisionResult collisionResult, List<Tile> tiles)
         {
-            base.OnCollision(collisionResult, colliders);
+            base.OnCollision(collisionResult, tiles);
 
-            foreach (Rectangle collider in colliders)
+            foreach (Tile tile in tiles)
             {
+                if (tile == null || !tile.Solid)
+                    continue;
+
                 // Check if a collider is directly underneath the player, if so stop this function to prevent going in the FallState
-                if (player.Hitbox.Bottom == collider.Top && player.Hitbox.Left < collider.Right && player.Hitbox.Right > collider.Left)
+                if (player.Hitbox.Bottom == tile.Hitbox.Top && player.Hitbox.Left < tile.Hitbox.Right && player.Hitbox.Right > tile.Hitbox.Left)
                     return;
             }
             
