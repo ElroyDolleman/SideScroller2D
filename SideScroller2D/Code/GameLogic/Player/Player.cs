@@ -205,7 +205,7 @@ namespace SideScroller2D.Code.GameLogic.Player
             spriteBatch.DrawString(font, "State: " + CurrentState.ToString().Replace("SideScroller2D.Code.GameLogic.Player.PlayerStates.", "").Replace("State", ""), new Vector2(0, 30), Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 1f);
 
             spriteBatch.DrawString(font, "Position: " + Position.ToString(), new Vector2(0, 40), Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 1f);
-            spriteBatch.DrawString(font, "Hitbox: " + Hitbox.ToString(), new Vector2(0, 50), Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 1f);
+            //spriteBatch.DrawString(font, "Hitbox: " + Hitbox.ToString(), new Vector2(0, 50), Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 1f);
 #endif
             base.Draw(spriteBatch);
         }

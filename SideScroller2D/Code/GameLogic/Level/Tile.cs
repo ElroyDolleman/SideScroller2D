@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using SideScroller2D.Code.Graphics;
+using SideScroller2D.Code.Particles;
 
 namespace SideScroller2D.Code.GameLogic.Level
 {
@@ -25,6 +26,8 @@ namespace SideScroller2D.Code.GameLogic.Level
         public readonly Vector2 Position;
 
         public TileTypes TileType { get; private set; }
+
+        public ParticleSystem ParticleSystem;
 
         private Sprite background;
         private Sprite overlay;
@@ -67,7 +70,7 @@ namespace SideScroller2D.Code.GameLogic.Level
             timer.AutoReset = false;
             timer.Enabled = true;
 
-            // TODO: Spawn break particles
+            ParticleSystem.Play();
         }
 
         private void MakeEmpty(Object source, ElapsedEventArgs e)

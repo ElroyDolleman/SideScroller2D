@@ -107,6 +107,21 @@ namespace SideScroller2D.Code.GameLogic.Level
                     tiles[index].DrawBackground(spriteBatch);
                 }
             }
+
+            // TODO: Do drawing different to prevent so many loops
+            for (int y = 0; y < Size.Y; y++)
+            {
+                for (int x = 0; x < Size.X; x++)
+                {
+                    int index = Grid.CellNumber(x, y, Size.X);
+
+                    if (tiles[index].ParticleSystem != null && tiles[index].ParticleSystem.Playing)
+                    {
+                        tiles[index].ParticleSystem.Update();
+                        tiles[index].ParticleSystem.Draw(spriteBatch);
+                    }
+                }
+            }
         }
 
         public void DrawForeground(SpriteBatch spriteBatch)

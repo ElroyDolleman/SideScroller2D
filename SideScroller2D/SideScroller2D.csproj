@@ -44,6 +44,7 @@
     <Compile Include="Code\GameLogic\Player\PlayerStates\WallJumpState.cs" />
     <Compile Include="Code\Particles\DustEffect.cs" />
     <Compile Include="Code\Particles\DustManager.cs" />
+    <Compile Include="Code\Particles\FallingPiecesParticles.cs" />
     <Compile Include="Code\Particles\Particle.cs" />
     <Compile Include="Code\Particles\ParticleSystem.cs" />
     <Compile Include="Code\Utilities\RNGManager.cs" />

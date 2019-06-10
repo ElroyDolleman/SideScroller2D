@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 
 using SideScroller2D.Code.Graphics;
 using SideScroller2D.Code.Utilities;
+using SideScroller2D.Code.Particles;
 
 namespace SideScroller2D.Code.GameLogic.Level
 {
@@ -81,6 +82,9 @@ namespace SideScroller2D.Code.GameLogic.Level
                     }
 
                     var tile = new Tile(position, null, overlaySprite, null, tileType);
+
+                    if (tile.TileType == TileTypes.Breakable)
+                        tile.ParticleSystem = new FallingPiecesParticles(new Sprite(AssetsManager.GetTexture("brick_piece")), tile.Hitbox.Center.ToVector2());
 
                     tiles.Add(tile);
                 }

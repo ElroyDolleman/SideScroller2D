@@ -63,6 +63,7 @@ namespace SideScroller2D.Code
 
             AssetsManager.LoadTexture2D(Content, "character_nina");
             AssetsManager.LoadTexture2D(Content, "player_dust_particles");
+            AssetsManager.LoadTexture2D(Content, "brick_piece");
 
             AssetsManager.LoadTileset(Content, "tileset01.json", "tileset01");
 

@@ -87,7 +87,7 @@ namespace SideScroller2D.Code.Particles
                 particles.Add(particle);
 
                 particle.SetVelocity(
-                    RNGManager.RandomFloat(MinSpeed, MaxSpeed), 
+                    RNGManager.RandomFloat(MinSpeed, MaxSpeed),
                     RNGManager.RandomFloat(MinDirection, MaxDirection)
                 );
                 particle.Acceleration = RNGManager.RandomVector2(MinAcceleration, MaxAcceleration);
