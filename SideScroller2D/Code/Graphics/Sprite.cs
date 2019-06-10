@@ -53,5 +53,23 @@ namespace SideScroller2D.Code.Graphics
             if (Visible)
                 spriteBatch.Draw(Texture, position, crop, color, rotation, origin, scale, SpriteEffect, depth);
         }
+
+        public Sprite Clone()
+        {
+            Sprite clone = new Sprite(Texture);
+
+            clone.Visible = Visible;
+
+            clone.scale = scale;
+            clone.origin = origin;
+            clone.rotation = rotation;
+
+            clone.crop = crop;
+            clone.color = color;
+            clone.spriteEffect = spriteEffect;
+            clone.depth = depth;
+
+            return clone;
+        }
     }
 }

@@ -46,6 +46,7 @@ namespace SideScroller2D.Code
             var spriteBatchSettings = SpriteBatchSettings.Default;
             spriteBatchSettings.SpriteBatchScale = Matrix.CreateScale(new Vector3(scaleX, scaleY, 1));
 
+            RNGManager.Initialize();
             InputManager.Initialize();
 
             stateManager = new StateManager(spriteBatchSettings);
