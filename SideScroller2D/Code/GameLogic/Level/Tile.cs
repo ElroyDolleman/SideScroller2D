@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Timers;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -64,19 +63,21 @@ namespace SideScroller2D.Code.GameLogic.Level
             overlay = null;
 
             // TODO: Build custom timer system so it will work with frame by frame advancement
-            var timer = new Timer(1000f / 60f * 8f);
+            //var timer = new Timer(1000f / 60f * 6f);
 
-            timer.Elapsed += MakeEmpty;
-            timer.AutoReset = false;
-            timer.Enabled = true;
+            TileType = TileTypes.Empty;
+
+            //timer.Elapsed += MakeEmpty;
+            //timer.AutoReset = false;
+            //timer.Enabled = true;
 
             ParticleSystem.Play();
         }
 
-        private void MakeEmpty(Object source, ElapsedEventArgs e)
-        {
-            TileType = TileTypes.Empty;
-        }
+        //private void MakeEmpty(Object source, ElapsedEventArgs e)
+        //{
+        //    TileType = TileTypes.Empty;
+        //}
 
         public void DrawBackground(SpriteBatch spriteBatch)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 using Microsoft.Xna.Framework;
 
@@ -75,18 +76,21 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
                     {
                         doHeadBonk = true;
                         headBonkTiles.Add(tile);
-                    }
 
-                    // Move along side wall
-                    if (headBonkTiles.Count == 1 && (MathHelper.Distance(player.Hitbox.Left, tile.Hitbox.Left) > 4 && MathHelper.Distance(player.Hitbox.Right, tile.Hitbox.Right) > 4))
-                    {
-                        doHeadBonk = false;
+                        // Check if the player can slide allong the corner of the tile
+                        bool leftCornerSlide = !InputManager.IsDown(player.Inputs.Right) && player.Hitbox.Left < tile.Hitbox.Left && tile.Hitbox.Left - player.Hitbox.Left > 4;
+                        bool rightCornerSlide = !InputManager.IsDown(player.Inputs.Left) && player.Hitbox.Right > tile.Hitbox.Right && player.Hitbox.Right - tile.Hitbox.Right > 4;
 
-                        if (player.Hitbox.Left < tile.Hitbox.Left)
-                            newXPos = tile.Hitbox.Left - player.Hitbox.Width;
+                        if (headBonkTiles.Count == 1 && (leftCornerSlide || rightCornerSlide))
+                        {
+                            doHeadBonk = false;
 
-                        else if (player.Hitbox.Right > tile.Hitbox.Right)
-                            newXPos = tile.Hitbox.Right;
+                            if (player.Hitbox.Left < tile.Hitbox.Left)
+                                newXPos = tile.Hitbox.Left - player.Hitbox.Width;
+
+                            else if (player.Hitbox.Right > tile.Hitbox.Right)
+                                newXPos = tile.Hitbox.Right;
+                        }
                     }
                 }
 
@@ -95,13 +99,17 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 
                 else if (newXPos != player.Position.X)
                 {
-                    player.Position = new Vector2(newXPos, player.Position.Y - 1);
+                    player.Position = new Vector2(newXPos, player.Position.Y);
 
-                    // TODO: Prevent duplicate code
                     foreach (Tile tile in headBonkTiles)
                     {
                         if (tile.TileType == TileTypes.Breakable)
-                            tile.Break();
+                        {
+                            var timer = new Timer(1000f / 60f * 6f);
+                            timer.Elapsed += (sender, e) => HeadBonkBreak(sender, e, tile);
+                            timer.AutoReset = false;
+                            timer.Enabled = true;
+                        }
                     }
                 }
             }
@@ -116,8 +124,18 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             foreach (Tile tile in headBonkTiles)
             {
                 if (tile.TileType == TileTypes.Breakable)
-                    tile.Break();
+                    HeadBonkBreak(tile);
             }
+        }
+
+        private void HeadBonkBreak(Object source, ElapsedEventArgs e, Tile tileToBreak)
+        {
+            HeadBonkBreak(tileToBreak);
+        }
+
+        private void HeadBonkBreak(Tile tileToBreak)
+        {
+            tileToBreak.Break();
         }
     }
 }
