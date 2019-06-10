@@ -77,9 +77,13 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
                         doHeadBonk = true;
                         headBonkTiles.Add(tile);
 
+                        // If the player doesn't move horizontaly it can do a corner slide
+                        //if (player.Speed.X != 0)
+                        //    continue;
+
                         // Check if the player can slide allong the corner of the tile
-                        bool leftCornerSlide = !InputManager.IsDown(player.Inputs.Right) && player.Hitbox.Left < tile.Hitbox.Left && tile.Hitbox.Left - player.Hitbox.Left > 4;
-                        bool rightCornerSlide = !InputManager.IsDown(player.Inputs.Left) && player.Hitbox.Right > tile.Hitbox.Right && player.Hitbox.Right - tile.Hitbox.Right > 4;
+                        bool leftCornerSlide = player.Speed.X <= 0 && player.Hitbox.Left < tile.Hitbox.Left && tile.Hitbox.Left - player.Hitbox.Left > 4;
+                        bool rightCornerSlide = player.Speed.X >= 0 && player.Hitbox.Right > tile.Hitbox.Right && player.Hitbox.Right - tile.Hitbox.Right > 4;
 
                         if (headBonkTiles.Count == 1 && (leftCornerSlide || rightCornerSlide))
                         {
@@ -99,7 +103,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 
                 else if (newXPos != player.Position.X)
                 {
-                    player.Position = new Vector2(newXPos, player.Position.Y);
+                    player.Position = new Vector2(newXPos, player.Position.Y - 1);
 
                     foreach (Tile tile in headBonkTiles)
                     {
