@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using SideScroller2D.Code.Graphics;
 using SideScroller2D.Code.StateManagement;
 using SideScroller2D.Code.StateManagement.States;
+using SideScroller2D.Code.Utilities.Time;
 using SideScroller2D.Code.Utilities;
 using SideScroller2D.Code.Input;
 using SideScroller2D.Code.Audio;
@@ -15,9 +16,6 @@ namespace SideScroller2D.Code
     {
         public const int TargetWidth = 400;
         public const int TargetHeight = 300;
-
-        public static float DeltaTime { get; private set; }
-        public static float DeltaTimeMiliseconds { get; private set; }
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -87,6 +85,9 @@ namespace SideScroller2D.Code
 
         protected override void Update(GameTime gameTime)
         {
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //    Exit();
+
 #if DEBUG
             previousKeyboardState = currentKeyboardState;
             currentKeyboardState = Keyboard.GetState();
@@ -103,15 +104,12 @@ namespace SideScroller2D.Code
             }
 #endif
 
-            DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            DeltaTimeMiliseconds = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            ElapsedTime.Update(gameTime);
 
             InputManager.UpdateState();
+            TimerManager.Update();
 
-            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            //    Exit();
-
-            stateManager.Update(gameTime);
+            stateManager.Update();
 
             base.Update(gameTime);
         }

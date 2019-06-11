@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using SideScroller2D.Code.GameLogic.Player.PlayerStates;
 using SideScroller2D.Code.GameLogic.Level;
+using SideScroller2D.Code.Utilities.Time;
 using SideScroller2D.Code.Utilities;
 using SideScroller2D.Code.Collision;
 using SideScroller2D.Code.Graphics;
@@ -135,11 +136,11 @@ namespace SideScroller2D.Code.GameLogic.Player
             currentAnimation.ResetAnimation();
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update()
         {
-            CurrentState.Update(gameTime);
+            CurrentState.Update();
 
-            currentAnimation.Update(Main.DeltaTimeMiliseconds);
+            currentAnimation.Update(ElapsedTime.Milliseconds);
 
             if (SpeedDirection != 0)
                 FacingDirection = SpeedDirection;

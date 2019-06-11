@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using SideScroller2D.Code.Graphics;
+using SideScroller2D.Code.Utilities.Time;
 using SideScroller2D.Code.Utilities;
+using SideScroller2D.Code.Graphics;
 
 namespace SideScroller2D.Code.Particles
 {
@@ -101,7 +102,7 @@ namespace SideScroller2D.Code.Particles
                 return;
 
             if (Loop || Time < Duration)
-                Time += Main.DeltaTime;
+                Time += ElapsedTime.Seconds;
 
             UpdateParticles();
 
@@ -115,7 +116,7 @@ namespace SideScroller2D.Code.Particles
                 return;
             }
 
-            emitTimer -= Main.DeltaTime;
+            emitTimer -= ElapsedTime.Seconds;
 
             if (emitTimer <= 0)
             {

@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 using SideScroller2D.Code.GameLogic.Level;
-using SideScroller2D.Code.Input;
-using SideScroller2D.Code.Audio;
+using SideScroller2D.Code.Utilities.Time;
 using SideScroller2D.Code.Particles;
 using SideScroller2D.Code.Collision;
+using SideScroller2D.Code.Input;
+using SideScroller2D.Code.Audio;
 
 namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
 {
@@ -51,7 +52,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             base.OnEnter();
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update()
         {
             ApplyGravity();
 
@@ -62,7 +63,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             if (inputDisabledTimer <= 0)
                 player.UpdateHorizontalMovementControls(Player.RunSpeed, 0.07f);
             else
-                inputDisabledTimer -= Main.DeltaTime;
+                inputDisabledTimer -= ElapsedTime.Seconds;
 
             if (player.Speed.Y > 0)
                 player.ChangeState(player.FallState);

@@ -38,11 +38,11 @@ namespace SideScroller2D.Code.Particles
             activeDustEffects.Add(dustEffect);
         }
 
-        public static void Update(GameTime gameTime)
+        public static void Update()
         {
             for (int i = 0; i < activeDustEffects.Count; i++)
             {
-                activeDustEffects[i].Update(gameTime);
+                activeDustEffects[i].Update();
 
                 if (activeDustEffects[i].Animation.Done)
                 {

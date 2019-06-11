@@ -56,11 +56,11 @@ namespace SideScroller2D.Code.StateManagement
                 state.OnContentLoaded();
         }
 
-        public void Update(GameTime gameTime)
+        public void Update()
         {
-            states[currentStateID].Update(gameTime);
+            states[currentStateID].Update();
 
-            DustManager.Update(gameTime);
+            DustManager.Update();
         }
 
         public void Draw(SpriteBatch spriteBatch)

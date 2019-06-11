@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using SideScroller2D.Code.Utilities.Time;
+using SideScroller2D.Code.Utilities;
 using SideScroller2D.Code.GameLogic;
 using SideScroller2D.Code.Graphics;
-using SideScroller2D.Code.Utilities;
 
 namespace SideScroller2D.Code.Particles
 {
@@ -34,9 +35,9 @@ namespace SideScroller2D.Code.Particles
             this.position = position;
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update()
         {
-            Animation.Update(Main.DeltaTimeMiliseconds);
+            Animation.Update(ElapsedTime.Milliseconds);
 
             if (Animation.Done && sprite.Visible)
                 sprite.Visible = false;

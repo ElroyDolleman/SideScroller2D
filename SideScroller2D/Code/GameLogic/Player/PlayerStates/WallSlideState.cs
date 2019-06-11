@@ -8,9 +8,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using SideScroller2D.Code.GameLogic.Level;
+using SideScroller2D.Code.Utilities.Time;
+using SideScroller2D.Code.Utilities;
 using SideScroller2D.Code.Collision;
 using SideScroller2D.Code.Particles;
-using SideScroller2D.Code.Utilities;
 using SideScroller2D.Code.Input;
 
 namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
@@ -36,11 +37,11 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             dustSpawnTimer = 0f;
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update()
         {
             ApplyGravity();
 
-            dustSpawnTimer += Main.DeltaTime;
+            dustSpawnTimer += ElapsedTime.Seconds;
         }
 
         public override void OnCollision(CollisionResult collisionResult, List<Tile> tiles)

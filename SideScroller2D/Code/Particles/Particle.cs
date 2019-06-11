@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using SideScroller2D.Code.Utilities.Time;
 using SideScroller2D.Code.Graphics;
 
 namespace SideScroller2D.Code.Particles
@@ -49,12 +50,12 @@ namespace SideScroller2D.Code.Particles
 
         public void Update()
         {
-            Lifetime -= Main.DeltaTime;
+            Lifetime -= ElapsedTime.Seconds;
 
-            Sprite.Rotation += RotationSpeed * Main.DeltaTime;
+            Sprite.Rotation += RotationSpeed * ElapsedTime.Seconds;
 
             Velocity += Acceleration;
-            Position += Velocity * Main.DeltaTime;
+            Position += Velocity * ElapsedTime.Seconds;
         }
 
         public void Draw(SpriteBatch spriteBatch)

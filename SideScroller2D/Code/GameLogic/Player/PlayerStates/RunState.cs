@@ -24,9 +24,9 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             player.ChangeAnimation(Player.Animations.Walk);
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update()
         {
-            base.Update(gameTime);
+            base.Update();
 
             if (player.Acceleration.X == 0 && player.CurrentState == this)
             {

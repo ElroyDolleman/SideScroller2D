@@ -47,7 +47,10 @@
     <Compile Include="Code\Particles\FallingPiecesParticles.cs" />
     <Compile Include="Code\Particles\Particle.cs" />
     <Compile Include="Code\Particles\ParticleSystem.cs" />
+    <Compile Include="Code\Utilities\Time\ElapsedTime.cs" />
+    <Compile Include="Code\Utilities\Time\TimerManager.cs" />
     <Compile Include="Code\Utilities\RNGManager.cs" />
+    <Compile Include="Code\Utilities\Time\Timer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

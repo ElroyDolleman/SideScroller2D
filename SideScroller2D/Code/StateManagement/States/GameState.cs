@@ -59,9 +59,9 @@ namespace SideScroller2D.Code.StateManagement.States
             //particleSystem.Play();
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update()
         {
-            player.Update(gameTime);
+            player.Update();
 
             var from = currentLevel.Grid.ToGridLocation(player.NextHitbox.Location.ToVector2() - Vector2.One * 2);
             var to = new Point(from.X + 1, from.Y + 1);

@@ -23,7 +23,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
         }
 
         virtual public void OnEnter() { }
-        virtual public void Update(GameTime gameTime) { }
+        virtual public void Update() { }
 
         virtual public void OnCollision(CollisionResult collisionResult, List<Tile> tiles)
         {

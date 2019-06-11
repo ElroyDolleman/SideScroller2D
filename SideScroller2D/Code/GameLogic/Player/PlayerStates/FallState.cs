@@ -24,7 +24,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             player.ChangeAnimation(Player.Animations.Fall);
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update()
         {
             ApplyGravity();
 

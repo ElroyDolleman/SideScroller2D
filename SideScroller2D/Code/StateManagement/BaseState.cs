@@ -29,7 +29,7 @@ namespace SideScroller2D.Code.StateManagement
 
         }
 
-        public virtual void Update(GameTime gameTime)
+        public virtual void Update()
         {
             
         }

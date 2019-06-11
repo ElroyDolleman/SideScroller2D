@@ -33,7 +33,7 @@ namespace SideScroller2D.Code
             this.position.Y = newY;
         }
 
-        public virtual void Update(GameTime gameTime)
+        public virtual void Update()
         {
             
         }

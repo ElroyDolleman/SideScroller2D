@@ -34,7 +34,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update()
         {
             
         }

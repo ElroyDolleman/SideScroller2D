@@ -22,7 +22,6 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
         public JumpState(Player player)
             : base(player)
         {
-
         }
 
         public override void OnEnter()
@@ -37,7 +36,7 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
             AudioManager.PlaySound(GameSounds.PlayerJump);
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update()
         {
             // Enable wall jump on first frame
             if (!canWallJump)
@@ -105,16 +104,16 @@ namespace SideScroller2D.Code.GameLogic.Player.PlayerStates
                 {
                     player.Position = new Vector2(newXPos, player.Position.Y - 1);
 
-                    foreach (Tile tile in headBonkTiles)
-                    {
-                        if (tile.TileType == TileTypes.Breakable)
-                        {
-                            var timer = new Timer(1000f / 60f * 6f);
-                            timer.Elapsed += (sender, e) => HeadBonkBreak(sender, e, tile);
-                            timer.AutoReset = false;
-                            timer.Enabled = true;
-                        }
-                    }
+                    //foreach (Tile tile in headBonkTiles)
+                    //{
+                    //    if (tile.TileType == TileTypes.Breakable)
+                    //    {
+                    //        var timer = new Timer(1000f / 60f * 6f);
+                    //        timer.Elapsed += (sender, e) => HeadBonkBreak(sender, e, tile);
+                    //        timer.AutoReset = false;
+                    //        timer.Enabled = true;
+                    //    }
+                    //}
                 }
             }
 
