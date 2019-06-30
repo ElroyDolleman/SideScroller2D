@@ -6,127 +6,111 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 
-using SideScroller2D.Code.GameLogic.Level;
-
 namespace SideScroller2D.Code.Collision
 {
     static class CollisionManager
     {
-        public static CollisionResult MoveEntity(MovableEntity movable, List<Tile> tiles)
+        public static void MoveActor(Actor actor, List<AABBCollider> colliders)
         {
-            CollisionResult result = new CollisionResult();
+            var result = new CollisionResult();
+            result.HitboxOnOverlap = actor.NextHitbox;
 
-            movable.UpdateHorizontalMovement();
+            if (actor.Speed.X != 0)
+                actor.MoveX();
 
-            foreach (Tile tile in tiles)
+            foreach(AABBCollider collider in colliders)
             {
-                if (tile == null || !tile.Solid || !movable.Hitbox.Intersects(tile.Hitbox))
+                if (!actor.Hitbox.Intersects(collider.Hitbox) || collider.CollisionType == AABBCollider.CollisionTypes.SemiSolid)
                     continue;
 
-                if (movable.Hitbox.Left < tile.Hitbox.Left)
-                {
-                    movable.ChangePositionX((float)(tile.Hitbox.Left - movable.Hitbox.Width));
+                actor.OnCollision(collider);
 
-                    result.Horizontal = CollisionResult.HorizontalResults.OnRight;
+                if (collider == null || !actor.Hitbox.Intersects(collider.Hitbox))
+                    continue;
+
+                if (actor.Hitbox.Left < collider.Hitbox.Left)
+                {
+                    actor.SetX(collider.Hitbox.Left - actor.Hitbox.Width);
+                    result.OnRight = true;
                 }
 
-                else if (movable.Hitbox.Right > tile.Hitbox.Right)
+                else if (actor.Hitbox.Right > collider.Hitbox.Right)
                 {
-                    movable.ChangePositionX((float)tile.Hitbox.Right);
-
-                    result.Horizontal = CollisionResult.HorizontalResults.OnLeft;
+                    actor.SetX(collider.Hitbox.Right);
+                    result.OnLeft = true;
                 }
             }
 
-            float prevBottom = movable.Hitbox.Bottom;
-            movable.UpdateVerticalMovement();
+            var oldBottom = actor.Hitbox.Bottom;
+            if (actor.Speed.Y != 0)
+                actor.MoveY();
 
-            foreach (Tile tile in tiles)
+            for (int i = 0; i < colliders.Count; i++)
             {
-                if (tile == null || !movable.Hitbox.Intersects(tile.Hitbox))
+                var collider = colliders[i];
+
+                if (!actor.Hitbox.Intersects(collider.Hitbox))
                     continue;
 
-                if (tile.TileType == TileTypes.SemiSolid)
+                actor.OnCollision(collider);
+
+                if (collider == null || !actor.Hitbox.Intersects(collider.Hitbox))
+                    continue;
+
+                if (actor.Hitbox.Top < collider.Hitbox.Top)
                 {
-                    if (movable.Speed.Y > 0 && prevBottom <= tile.Hitbox.Top && movable.Hitbox.Bottom >= tile.Hitbox.Top)
+                    if ((actor.Speed.Y <= 0 || oldBottom > collider.Hitbox.Top) && collider.CollisionType == AABBCollider.CollisionTypes.SemiSolid)
+                        continue;
+
+                    actor.SetY(collider.Hitbox.Top - actor.Hitbox.Height);
+                    result.OnBottom = true;
+                }
+
+                else if (actor.Hitbox.Bottom > collider.Hitbox.Bottom && collider.CollisionType != AABBCollider.CollisionTypes.SemiSolid)
+                {
+                    float adjustedX = actor.Position.X;
+
+                    // TODO: Let the actor determine how corner adjustment works
+                    if (MathHelper.Distance(actor.Hitbox.Right, collider.Hitbox.Left) < 5)
                     {
-                        movable.ChangePositionY((float)(tile.Hitbox.Top - movable.Hitbox.Height));
-                        result.Vertical = CollisionResult.VerticalResults.OnBottom;
+                        adjustedX = collider.Hitbox.Left - actor.Hitbox.Width;
+                    }
+                    else if (MathHelper.Distance(actor.Hitbox.Left, collider.Hitbox.Right) < 5)
+                    {
+                        adjustedX = collider.Hitbox.Right;
                     }
 
-                    continue;
-                }
+                    if (adjustedX != actor.Position.X)
+                    {
+                        for (int j = 0; j < colliders.Count; j++)
+                        {
+                            if (i == j)
+                                continue;
 
-                if (!tile.Solid)
-                    continue;
+                            if (colliders[j].Hitbox.Bottom == collider.Hitbox.Bottom && actor.Hitbox.Intersects(colliders[j].Hitbox))
+                            {
+                                adjustedX = actor.Position.X;
+                                break;
+                            }
+                        }
+                    }
 
-                if (movable.Hitbox.Top < tile.Hitbox.Top)
-                {
-                    movable.ChangePositionY((float)(tile.Hitbox.Top - movable.Hitbox.Height));
+                    if (adjustedX == actor.Position.X)
+                    {
+                        actor.SetY(collider.Hitbox.Bottom);
+                        result.OnTop = true;
+                    }
+                    else
+                    {
+                        result.OnRight = adjustedX == collider.Hitbox.Right;
+                        result.OnLeft = adjustedX == collider.Hitbox.Left - actor.Hitbox.Width;
 
-                    result.Vertical = CollisionResult.VerticalResults.OnBottom;
-                }
-
-                else if (movable.Hitbox.Bottom > tile.Hitbox.Bottom)
-                {
-                    movable.ChangePositionY((float)tile.Hitbox.Bottom);
-
-                    result.Vertical = CollisionResult.VerticalResults.OnTop;
-                }
-            }
-
-            return result;
-        }
-
-        public static CollisionResult MoveEntity(MovableEntity movable, List<Rectangle> colliders)
-        {
-            CollisionResult result = new CollisionResult();
-
-            movable.UpdateHorizontalMovement();
-
-            foreach (Rectangle collider in colliders)
-            {
-                if (!movable.Hitbox.Intersects(collider))
-                    continue;
-
-                if (movable.Hitbox.Left < collider.Left)
-                {
-                    movable.ChangePositionX((float)(collider.Left - movable.Hitbox.Width));
-
-                    result.Horizontal = CollisionResult.HorizontalResults.OnRight;
-                }
-
-                else if (movable.Hitbox.Right > collider.Right)
-                {
-                    movable.ChangePositionX((float)collider.Right);
-
-                    result.Horizontal = CollisionResult.HorizontalResults.OnLeft;
+                        actor.SetX(adjustedX);
+                    }
                 }
             }
 
-            movable.UpdateVerticalMovement();
-
-            foreach (Rectangle collider in colliders)
-            {
-                if (!movable.Hitbox.Intersects(collider))
-                    continue;
-
-                if (movable.Hitbox.Top < collider.Top)
-                {
-                    movable.ChangePositionY((float)(collider.Top - movable.Hitbox.Height));
-
-                    result.Vertical = CollisionResult.VerticalResults.OnBottom;
-                }
-
-                else if (movable.Hitbox.Bottom > collider.Bottom)
-                {
-                    movable.ChangePositionY((float)collider.Bottom);
-
-                    result.Vertical = CollisionResult.VerticalResults.OnTop;
-                }
-            }
-
-            return result;
+            actor.OnCollisionResolution(result, colliders);
         }
     }
 }

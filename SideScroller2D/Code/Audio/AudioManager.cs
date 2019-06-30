@@ -28,7 +28,7 @@ namespace SideScroller2D.Code.Audio
 
         public static void PlaySound(GameSounds sound, float volume = 1.0f, float pitch = 0.0f, float pan = 0.0f)
         {
-            soundEffects[sound].Play(volume, pitch, pan);
+            //soundEffects[sound].Play(volume, pitch, pan);
         }
     }
 }

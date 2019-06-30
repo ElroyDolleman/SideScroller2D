@@ -23,7 +23,7 @@ namespace SideScroller2D.Code.Utilities
 
         public static int RandomInt(int min, int max)
         {
-            return random.Next(min, max);
+            return random.Next(min, max + 1);
         }
 
         public static float RandomFloat(float min, float max)

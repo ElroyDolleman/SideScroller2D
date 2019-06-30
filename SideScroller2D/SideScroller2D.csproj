@@ -41,12 +41,29 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Code\GameLogic\Player\PlayerStates\WallJumpState.cs" />
-    <Compile Include="Code\Particles\DustEffect.cs" />
-    <Compile Include="Code\Particles\DustManager.cs" />
-    <Compile Include="Code\Particles\FallingPiecesParticles.cs" />
-    <Compile Include="Code\Particles\Particle.cs" />
-    <Compile Include="Code\Particles\ParticleSystem.cs" />
+    <Compile Include="Code\Actor.cs" />
+    <Compile Include="Code\Collision\AABBCollider.cs" />
+    <Compile Include="Code\Collision\FloatRectangle.cs" />
+    <Compile Include="Code\Graphics\Particles\ParticleSystemsManager.cs" />
+    <Compile Include="Code\Levels\Grid.cs" />
+    <Compile Include="Code\Levels\Level.cs" />
+    <Compile Include="Code\Levels\LevelLoader.cs" />
+    <Compile Include="Code\Levels\Tile.cs" />
+    <Compile Include="Code\Graphics\Particles\DustParticles.cs" />
+    <Compile Include="Code\Playable\PlayerStates\JumpState.cs" />
+    <Compile Include="Code\Playable\PlayerStates\RunState.cs" />
+    <Compile Include="Code\Playable\PlayerStates\WallJumpState.cs" />
+    <Compile Include="Code\Playable\PlayerStates\WallSlideState.cs" />
+    <Compile Include="Code\Playable\PlayerStats.cs" />
+    <Compile Include="Code\Graphics\Particles\FallingPiecesParticles.cs" />
+    <Compile Include="Code\Graphics\Particles\Particle.cs" />
+    <Compile Include="Code\Graphics\Particles\ParticleSystem.cs" />
+    <Compile Include="Code\Playable\Player.cs" />
+    <Compile Include="Code\Playable\PlayerStates\FallState.cs" />
+    <Compile Include="Code\Playable\PlayerStates\IdleState.cs" />
+    <Compile Include="Code\Playable\PlayerStates\InAirState.cs" />
+    <Compile Include="Code\Playable\PlayerStates\OnGroundState.cs" />
+    <Compile Include="Code\Playable\PlayerStates\PlayerBaseState.cs" />
     <Compile Include="Code\Utilities\Time\ElapsedTime.cs" />
     <Compile Include="Code\Utilities\Time\TimerManager.cs" />
     <Compile Include="Code\Utilities\RNGManager.cs" />
@@ -58,21 +75,6 @@
     <Compile Include="Code\Collision\Circle.cs" />
     <Compile Include="Code\Collision\CollisionManager.cs" />
     <Compile Include="Code\Collision\CollisionResult.cs" />
-    <Compile Include="Code\Collision\MovableEntity.cs" />
-    <Compile Include="Code\GameLogic\Entity.cs" />
-    <Compile Include="Code\GameLogic\Level\Grid.cs" />
-    <Compile Include="Code\GameLogic\Level\Level.cs" />
-    <Compile Include="Code\GameLogic\Level\LevelLoader.cs" />
-    <Compile Include="Code\GameLogic\Level\Tile.cs" />
-    <Compile Include="Code\GameLogic\Player\PlayerStates\FallState.cs" />
-    <Compile Include="Code\GameLogic\Player\PlayerStates\IdleState.cs" />
-    <Compile Include="Code\GameLogic\Player\PlayerStates\InAirState.cs" />
-    <Compile Include="Code\GameLogic\Player\Player.cs" />
-    <Compile Include="Code\GameLogic\Player\PlayerStates\JumpState.cs" />
-    <Compile Include="Code\GameLogic\Player\PlayerStates\OnGroundState.cs" />
-    <Compile Include="Code\GameLogic\Player\PlayerStates\PlayerBaseState.cs" />
-    <Compile Include="Code\GameLogic\Player\PlayerStates\RunState.cs" />
-    <Compile Include="Code\GameLogic\Player\PlayerStates\WallSlideState.cs" />
     <Compile Include="Code\Graphics\Sprite.cs" />
     <Compile Include="Code\Graphics\SpriteBatchExtension.cs" />
     <Compile Include="Code\Graphics\SpriteBatchSettings.cs" />

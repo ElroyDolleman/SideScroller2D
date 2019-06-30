@@ -9,11 +9,10 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using SideScroller2D.Code.Graphics;
-using SideScroller2D.Code.GameLogic.Player;
-using SideScroller2D.Code.GameLogic.Player.PlayerStates;
-using SideScroller2D.Code.GameLogic.Level;
+using SideScroller2D.Code.Playable;
+using SideScroller2D.Code.Levels;
 using SideScroller2D.Code.Collision;
-using SideScroller2D.Code.Particles;
+using SideScroller2D.Code.Graphics.Particles;
 using SideScroller2D.Code.Utilities;
 
 namespace SideScroller2D.Code.StateManagement.States
@@ -22,7 +21,6 @@ namespace SideScroller2D.Code.StateManagement.States
     {
         Player player;
         Level currentLevel;
-        //ParticleSystem particleSystem;
 
         public GameState(StateManager stateManager)
             : base(stateManager)
@@ -31,54 +29,24 @@ namespace SideScroller2D.Code.StateManagement.States
 
         public override void OnContentLoaded()
         {
-            player = new Player(PlayerIndex.One);
-            player.Position = new Vector2(200 - 8, 300 - 48);
+            player = new Player(PlayerIndex.One, new Vector2(140-8, 300 - 48));
 
-            currentLevel = LevelLoader.LoadLevel();
-
-            //var dust = new Sprite(AssetsManager.GetTexture("player_dust_particles"));
-            //dust.Crop = new Rectangle(32, 0, 16, 16);
-            //dust.Origin = new Vector2(8, 8);
-
-            //particleSystem = new ParticleSystem(dust, Vector2.One * 120);
-
-            //particleSystem.MinEmitInterval = 0.5f;
-            //particleSystem.MaxEmitInterval = 0.5f;
-
-            //particleSystem.MinAcceleration = new Vector2(0, 1.5f);
-            //particleSystem.MaxAcceleration = particleSystem.MinAcceleration;
-
-            //particleSystem.MinDirection = MathHelper.ToRadians(180 - 45);
-            //particleSystem.MaxDirection = MathHelper.ToRadians(180 + 45);
-
-            //particleSystem.MinRotateSpeed = -1.5f;
-            //particleSystem.MaxRotateSpeed = 1.5f;
-
-            //particleSystem.Loop = true;
-
-            //particleSystem.Play();
+            currentLevel = LevelLoader.LoadLevel(LevelLoader.TestLevel02, LevelLoader.TilesetDefault);
         }
 
         public override void Update()
         {
             player.Update();
 
-            var from = currentLevel.Grid.ToGridLocation(player.NextHitbox.Location.ToVector2() - Vector2.One * 2);
+            var from = currentLevel.Grid.ToGridLocation(player.NextHitbox.Position - Vector2.One * 2);
             var to = new Point(from.X + 1, from.Y + 1);
 
-            var overlappingTiles = currentLevel.GetTiles(from, to);
-
-            var result = CollisionManager.MoveEntity(player, overlappingTiles);
-
-            player.OnCollision(result, overlappingTiles);
-            player.UpdateInBounds();
-
-            //particleSystem.Position = player.Position;
+            CollisionManager.MoveActor(player, currentLevel.GetColliders(from, to));
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            currentLevel.DrawBackground(spriteBatch);
+            currentLevel.DrawTiles(spriteBatch);
 
 #if DEBUG
             // Draw Colliding Tiles
@@ -102,14 +70,9 @@ namespace SideScroller2D.Code.StateManagement.States
             player.Draw(spriteBatch);
 
 #if DEBUG
-            // Draw Hitbox
+            // Draw Player Hitbox
             //spriteBatch.FillRectangle(player.Hitbox, Color.Black * 0.9f);
 #endif
-
-            //particleSystem.Update();
-            //particleSystem.Draw(spriteBatch);
-
-            currentLevel.DrawForeground(spriteBatch);
         }
     }
 }

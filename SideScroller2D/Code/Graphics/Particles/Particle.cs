@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SideScroller2D.Code.Utilities.Time;
 using SideScroller2D.Code.Graphics;
 
-namespace SideScroller2D.Code.Particles
+namespace SideScroller2D.Code.Graphics.Particles
 {
     class Particle
     {

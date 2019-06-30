@@ -14,6 +14,8 @@ namespace SideScroller2D.Code
 {
     public class Main : Game
     {
+        public static Main Instance { get; private set; }
+
         public const int TargetWidth = 400;
         public const int TargetHeight = 300;
 
@@ -26,6 +28,8 @@ namespace SideScroller2D.Code
 
         public Main()
         {
+            Instance = this;
+
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
@@ -78,7 +82,7 @@ namespace SideScroller2D.Code
         }
 
 #if DEBUG
-        bool frameByFrameAdvancement = false;
+        public static bool FrameByFrameAdvancement = false;
         private static KeyboardState currentKeyboardState;
         private static KeyboardState previousKeyboardState;
 #endif
@@ -94,10 +98,10 @@ namespace SideScroller2D.Code
 
             if (currentKeyboardState.IsKeyDown(Keys.F) && previousKeyboardState.IsKeyUp(Keys.F))
             {
-                frameByFrameAdvancement = !frameByFrameAdvancement;
+                FrameByFrameAdvancement = !FrameByFrameAdvancement;
             }
 
-            if (frameByFrameAdvancement && !(currentKeyboardState.IsKeyDown(Keys.N) && previousKeyboardState.IsKeyUp(Keys.N)) )
+            if (FrameByFrameAdvancement && !(currentKeyboardState.IsKeyDown(Keys.N) && previousKeyboardState.IsKeyUp(Keys.N)) )
             {
                 base.Update(gameTime);
                 return;

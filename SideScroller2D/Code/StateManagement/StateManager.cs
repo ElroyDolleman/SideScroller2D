@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-using SideScroller2D.Code.Particles;
+using SideScroller2D.Code.Graphics.Particles;
 using SideScroller2D.Code.Graphics;
 
 namespace SideScroller2D.Code.StateManagement
@@ -60,7 +60,10 @@ namespace SideScroller2D.Code.StateManagement
         {
             states[currentStateID].Update();
 
-            DustManager.Update();
+#if DEBUG
+            if (Main.FrameByFrameAdvancement)
+                ParticleSystemsManager.Update();
+#endif
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -69,7 +72,7 @@ namespace SideScroller2D.Code.StateManagement
 
             states[currentStateID].Draw(spriteBatch);
 
-            DustManager.Draw(spriteBatch);
+            ParticleSystemsManager.UpdateAndDraw(spriteBatch);
 
             spriteBatch.End();
         }

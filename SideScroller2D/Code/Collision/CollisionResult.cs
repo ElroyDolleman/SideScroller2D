@@ -1,28 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using Microsoft.Xna.Framework;
 
 namespace SideScroller2D.Code.Collision
 {
     struct CollisionResult
     {
-        public enum HorizontalResults
-        {
-            None,
-            OnRight,
-            OnLeft
-        }
+        public bool OnTop;
+        public bool OnLeft;
+        public bool OnRight;
+        public bool OnBottom;
 
-        public enum VerticalResults
-        {
-            None,
-            OnTop,
-            OnBottom
-        }
-
-        public HorizontalResults Horizontal;
-        public VerticalResults Vertical;
+        public FloatRectangle HitboxOnOverlap;
     }
 }

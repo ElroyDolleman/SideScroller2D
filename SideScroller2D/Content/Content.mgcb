@@ -71,6 +71,12 @@
 #begin test_map02.json
 /copy:test_map02.json
 
+#begin test_map03.json
+/copy:test_map03.json
+
+#begin test_map04.json
+/copy:test_map04.json
+
 #begin tileset01.json
 /copy:tileset01.json
 

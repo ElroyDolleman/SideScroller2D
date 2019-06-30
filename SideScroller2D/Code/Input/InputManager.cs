@@ -39,7 +39,8 @@ namespace SideScroller2D.Code.Input
         {
             var newinputs = new PlayerInputs();
 
-            newinputs.Jump = new Input(Keys.Space, Buttons.A, (PlayerIndex)playerIndex);
+            newinputs.Jump = new Input(Keys.Z, Buttons.A, (PlayerIndex)playerIndex);
+            newinputs.Action = new Input(Keys.X, Buttons.A, (PlayerIndex)playerIndex);
 
             newinputs.Up = new Input(Keys.Up, Buttons.DPadUp, (PlayerIndex)playerIndex);
             newinputs.Down = new Input(Keys.Down, Buttons.DPadDown, (PlayerIndex)playerIndex);
